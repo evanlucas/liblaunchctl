@@ -21,17 +21,21 @@ Example:
 
 		launch_data_t job = launchctl_list_job("com.apple.Dock.agent");
 		
-#### jobsl launchctl_list_jobs()
+#### jobs_list_t launchctl_list_jobs()
 
 Gets all jobs registered with launchd
 
 Example:
 
-		jobsl jobs = launchctl_list_jobs();
-		int count = jobs->count;
-		for (int i=0; i<count; i++) {
-			lstatus job = &s->jobs[i];
-			printf("JOB: %s\t PID: %d\t STATUS: %d\n", job->label, job->pid, job->status);
+		jobs_list_t jobs = launchctl_list_jobs();
+		if (jobs == NULL) {
+			printf("Error listing jobs\n");
+		} else {
+			int count = jobs->count;
+			for (int i=0; i<count; i++) {
+				launch_data_status_t job = &s->jobs[i];
+				printf("JOB: %s\t PID: %d\t STATUS: %d\n", job->label, job->pid, job->status);
+			}
 		}
 
 #### int launchctl_start_job(const char *job);

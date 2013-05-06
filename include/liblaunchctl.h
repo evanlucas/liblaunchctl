@@ -95,11 +95,11 @@ struct ldtstatus {
   int status;
 };
 
-typedef struct ldtstatus *lstatus;
+typedef struct ldtstatus *launch_data_status_t;
 
 
 struct jobslist {
-  lstatus jobs;
+  launch_data_status_t jobs;
   int count;
 };
 
@@ -109,7 +109,7 @@ struct load_unload_state {
 	bool editondisk:1, load:1, forceload:1;
 };
 
-typedef struct jobslist *jobsl;
+typedef struct jobslist *jobs_list_t;
 
 #define CFTypeCheck(cf, type) (CFGetTypeID(cf) == type ## GetTypeID())
 #define CFReleaseIfNotNULL(cf) if (cf) CFRelease(cf);
@@ -120,12 +120,15 @@ typedef struct jobslist *jobsl;
 #pragma mark Public Functions
 
 launch_data_t launchctl_list_job(const char *job);
-jobsl launchctl_list_jobs();
+jobs_list_t launchctl_list_jobs();
+void jobs_list_free(jobs_list_t j);
+void launch_data_status_free(launch_data_status_t j);
 int launchctl_start_job(const char *job);
 int launchctl_stop_job(const char *job);
 int launchctl_remove_job(const char *job);
 int launchctl_load_job(const char *job, bool editondisk, bool forceload, const char *session_type, const char *domain);
 int launchctl_unload_job(const char *job);
+
 #pragma mark Private
 
 CFTypeRef CFTypeCreateFromLaunchData(launch_data_t obj);

@@ -119,12 +119,18 @@ int main(int argc, char *argv[]) {
       }
     }
   } else if (!strcmp(argv[1], "listall")) {
-    jobsl s = launchctl_list_jobs();
+    jobs_list_t s = launchctl_list_jobs();
+    if (s == NULL) {
+      printf("An error occurred fetching all jobs\n");
+      return 1;
+    }
     int count = s->count;
     printf("Found %d jobs\n", count);
     for (int i=0; i<count; i++) {
-      lstatus q = &s->jobs[i];
+      launch_data_status_t q = &s->jobs[i];
       printf("Job: %s\t PID: %d\t Status: %d\n", q->label, q->pid, q->status);
     }
+    launch_data_status_free(s->jobs);
+    jobs_list_free(s);
   }
 }

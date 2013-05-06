@@ -91,6 +91,7 @@ launch_data_t launchctl_list_job(const char *job) {
 	} else if (launch_data_get_type(resp) == LAUNCH_DATA_DICTIONARY) {
 		r = 0;
 	} else {
+    fprintf(stderr, "received unexpected data type from launchctl\n");
     r = 1;
   }
 	
@@ -101,16 +102,22 @@ launch_data_t launchctl_list_job(const char *job) {
 	return resp;
 }
 
-lstatus getjob(launch_data_t job) {
-  lstatus result = calloc(1, sizeof(lstatus));
+launch_data_status_t getjob(launch_data_t job) {
+  launch_data_status_t result = calloc(1, sizeof(launch_data_status_t));
+  if (result == NULL) {
+    fprintf(stderr, "Unable to allocate memory: %s\n", "launch_data_status_t getjob()");
+    return NULL;
+  }
   launch_data_t lo = launch_data_dict_lookup(job, LAUNCH_JOBKEY_LABEL);
   launch_data_t pido = launch_data_dict_lookup(job, LAUNCH_JOBKEY_PID);
   launch_data_t stato = launch_data_dict_lookup(job, LAUNCH_JOBKEY_LASTEXITSTATUS);
   result->label = strdup(launch_data_get_string(lo));
   if (pido) {
+    // Running -> Has a PID
     result->pid = (int)launch_data_get_integer(pido);
     result->status = -1;
   } else if (stato) {
+    // Has a last exit status
     int wstatus = (int)launch_data_get_integer(stato);
     result->pid = -1;
     if (WIFEXITED(wstatus)) {
@@ -121,6 +128,7 @@ lstatus getjob(launch_data_t job) {
       result->status = -1;
     }
   } else {
+    // Does not have a PID or Last Exit Status
     result->pid = -1;
     result->status = -1;
   }
@@ -128,16 +136,21 @@ lstatus getjob(launch_data_t job) {
   return result;
 }
 
-jobsl launchctl_list_jobs() {
+jobs_list_t launchctl_list_jobs() {
 	launch_data_t resp = NULL;
-  jobsl res = malloc(sizeof(jobsl));
+  
 	if (vproc_swap_complex(NULL, VPROC_GSK_ALLJOBS, NULL, &resp) == NULL) {
-    fprintf(stdout, "vproc\n");
+    jobs_list_t res = malloc(sizeof(jobs_list_t));
+    if (res == NULL) {
+      fprintf(stderr, "Unable to allocate memory: %s\n", "jobs_list_t launchctl_list_jobs()");
+      return NULL;
+    }
     int count = resp->_array_cnt;
     if (LAUNCH_DATA_DICTIONARY != resp->type) {
-      return res;
+      return NULL;
     }
-    lstatus r = malloc(sizeof(struct ldtstatus)*count);
+    
+    launch_data_status_t r = malloc(sizeof(struct ldtstatus)*count);
     int a = 0;
     for (int i=0; i<count; i+=2) {
       launch_data_t job = resp->_array[i+1];
@@ -147,10 +160,22 @@ jobsl launchctl_list_jobs() {
     res->count = a;
     res->jobs = r;
 		launch_data_free(resp);
+    return res;
 	}
-	return res;
+  
+  fprintf(stderr, "An unexpected error occurred\n");
+  return NULL;
 }
 
+void jobs_list_free(jobs_list_t j) {
+  free(j);
+}
+
+void launch_data_status_free(launch_data_status_t j) {
+  free(j);
+}
+
+// Returns 0 on success
 int launchctl_start_job(const char *job) {
   launch_data_t resp, msg;
   int e, r = 0;
@@ -175,6 +200,7 @@ int launchctl_start_job(const char *job) {
   return r;
 }
 
+// Returns 0 on success
 int launchctl_stop_job(const char *job) {
   launch_data_t resp, msg;
   int e, r = 0;
@@ -199,6 +225,7 @@ int launchctl_stop_job(const char *job) {
   return r;
 }
 
+// Returns 0 on success
 int launchctl_remove_job(const char *job) {
   launch_data_t resp, msg;
   int e, r = 0;
@@ -232,7 +259,7 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
   lus.load = true;
   lus.editondisk = editondisk;
   lus.forceload = forceload;
-  lus.session_type = session_type;
+  lus.session_type = (char *)session_type;
   if (domain == NULL) {
     es &= ~NSUserDomainMask;
   } else {
@@ -298,7 +325,7 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
 	if (launch_data_array_get_count(lus.pass1) == 0) {
 		launch_data_free(lus.pass1);
 		//return _launchctl_is_managed ? 0 : 1;
-    return 0;
+    return 1;
 	}
   
 	if (lus.load) {
@@ -375,7 +402,7 @@ int launchctl_unload_job(const char *job) {
 	if (launch_data_array_get_count(lus.pass1) == 0) {
 		launch_data_free(lus.pass1);
 		//return _launchctl_is_managed ? 0 : 1;
-    return 0;
+    return 1;
 	}
   
 	if (lus.load) {
