@@ -1,18 +1,21 @@
 CFLAGS=-Wall
+DIR=$(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+
+lib:
+	mkdir -p $(DIR)/build
+	clang $(CFLAGS) -I$(DIR)/include -framework CoreFoundation -dynamiclib -std=gnu99 $(DIR)/src/liblaunchctl.c -o $(DIR)/build/liblaunchctl.dylib
 
 all:
 	make lib
 
-lib:
-	mkdir -p ./build
-	clang $(CFLAGS) -I./include -framework CoreFoundation -dynamiclib -std=gnu99 ./src/liblaunchctl.c -o ./build/liblaunchctl.dylib
-
 test:
-	clang $(CFLAGS) -L./build -llaunchctl -I./include example.c -o test_launchctl
+	clang $(CFLAGS) -L$(DIR)/build -llaunchctl -I$(DIR)/include $(DIR)/example.c -o $(DIR)/test_launchctl
 
 clean:
-	rm -rf liblaunchctl.dylib launcher
-	rm -rf *.dSYM
-	rm -rf *.o
-	rm -rf ./build
-	rm -rf test_launchctl
+	rm -rf $(DIR)/liblaunchctl.dylib $(DIR)launcher
+	rm -rf $(DIR)/*.dSYM
+	rm -rf $(DIR)/*.o
+	rm -rf $(DIR)/build
+	rm -rf $(DIR)/test_launchctl
+
+.PHONY: lib
