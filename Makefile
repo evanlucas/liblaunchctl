@@ -18,4 +18,4 @@ clean:
 	rm -rf $(DIR)/build
 	rm -rf $(DIR)/test_launchctl
 
-.PHONY: lib
+.PHONY: clean lib
