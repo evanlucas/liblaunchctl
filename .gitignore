@@ -2,3 +2,4 @@
 .dSYM
 main.c
 build/*.dylib
+test_launchctl
