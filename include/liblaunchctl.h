@@ -55,6 +55,7 @@
 #include <sys/syslimits.h>
 #include "assumes.h"
 
+
 extern int * __error(void);
 #define errno (*__error())
 
