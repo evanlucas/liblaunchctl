@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <liblaunchctl.h>
+#include "include/liblaunchctl.h"
 
 int usage() {
   printf("usage:\n");

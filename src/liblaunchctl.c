@@ -23,7 +23,7 @@
  */
 
 #include <launch.h>
-#include <liblaunchctl.h>
+#include "../include/liblaunchctl.h"
 #include <CoreFoundation/CoreFoundation.h>
 #include <NSSystemDirectories.h>
 
