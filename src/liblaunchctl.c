@@ -185,16 +185,15 @@ int launchctl_start_job(const char *job) {
   launch_data_free(msg);
   
   if (resp == NULL) {
-    fprintf(stderr, "launch_msg(): %s\n", strerror(errno));
-    return 1;
+    return errno;
   } else if (launch_data_get_type(resp) == LAUNCH_DATA_ERRNO) {
     if ((e = launch_data_get_errno(resp))) {
-      fprintf(stderr, "start %s\n", strerror(e));
-      r = 1;
+      //fprintf(stderr, "start %s\n", strerror(e));
+      r = e;
     }
   } else {
-    fprintf(stderr, "launchctl returned unknown response\n");
-    r = 1;
+    //fprintf(stderr, "launchctl returned unknown response\n");
+    r = -1;
   }
   launch_data_free(resp);
   return r;
@@ -210,16 +209,15 @@ int launchctl_stop_job(const char *job) {
   launch_data_free(msg);
   
   if (resp == NULL) {
-    fprintf(stderr, "launch_msg(): %s\n", strerror(errno));
-    return 1;
+    //fprintf(stderr, "launch_msg(): %s\n", strerror(errno));
+    return errno;
   } else if (launch_data_get_type(resp) == LAUNCH_DATA_ERRNO) {
     if ((e = launch_data_get_errno(resp))) {
-      fprintf(stderr, "stop %s\n", strerror(e));
-      r = 1;
+      r = e;
     }
   } else {
-    fprintf(stderr, "launchctl returned unknown response\n");
-    r = 1;
+    //fprintf(stderr, "launchctl returned unknown response\n");
+    r = -1;
   }
   launch_data_free(resp);
   return r;
@@ -235,16 +233,16 @@ int launchctl_remove_job(const char *job) {
   launch_data_free(msg);
   
   if (resp == NULL) {
-    fprintf(stderr, "launch_msg(): %s\n", strerror(errno));
-    return 1;
+    //fprintf(stderr, "launch_msg(): %s\n", strerror(errno));
+    return errno;
   } else if (launch_data_get_type(resp) == LAUNCH_DATA_ERRNO) {
     if ((e = launch_data_get_errno(resp))) {
-      fprintf(stderr, "remove %s\n", strerror(e));
-      r = 1;
+      //fprintf(stderr, "remove %s\n", strerror(e));
+      r = e;
     }
   } else {
-    fprintf(stderr, "launchctl returned unknown response\n");
-    r = 1;
+    //fprintf(stderr, "launchctl returned unknown response\n");
+    r = -1;
   }
   launch_data_free(resp);
   return r;
@@ -1490,12 +1488,15 @@ void submit_job_pass(launch_data_t jobs) {
             switch (e) {
               case EEXIST:
                 fprintf(stderr, "%s: %s", lab4job, "Already loaded");
+                errno = EALLOAD;
                 break;
               case ESRCH:
                 fprintf(stderr, "%s: %s", lab4job, "Not loaded");
+                errno = ENOLOAD;
                 break;
               case ENEEDAUTH:
                 fprintf(stderr, "%s: %s", lab4job, "Could not set security session");
+                errno = ESETSEC;
               default:
                 fprintf(stderr, "%s: %s", lab4job, strerror(e));
               case 0:

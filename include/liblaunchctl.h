@@ -59,6 +59,9 @@
 extern int * __error(void);
 #define errno (*__error())
 
+#define EALLOAD 144
+#define ENOLOAD 145
+#define ESETSEC 146
 
 struct _launch_data {
   uint64_t type;

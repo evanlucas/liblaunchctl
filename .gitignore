@@ -3,3 +3,4 @@
 main.c
 build/*.dylib
 test_launchctl
+build/
