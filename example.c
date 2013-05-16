@@ -132,5 +132,9 @@ int main(int argc, char *argv[]) {
     }
     launch_data_status_free(s->jobs);
     jobs_list_free(s);
-  }
+  } else if (!strcmp(argv[1], "manager")) {
+    char *mgmr = launchctl_get_managername();
+    printf("Manager: %s\n", mgmr);
+    free(mgmr);
+  } 
 }

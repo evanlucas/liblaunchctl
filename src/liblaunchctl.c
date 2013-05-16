@@ -27,6 +27,25 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <NSSystemDirectories.h>
 
+
+#define LAUNCH_ENV_KEEPCONTEXT	"LaunchKeepContext"
+#define LAUNCH_ENV_BOOTSTRAPPINGSYSTEM "LaunchBootstrappingSystem"
+
+#define	BOOTSTRAP_MAX_LOOKUP_COUNT		20
+
+#define	BOOTSTRAP_SUCCESS				0
+#define	BOOTSTRAP_NOT_PRIVILEGED		1100
+#define	BOOTSTRAP_NAME_IN_USE			1101
+#define	BOOTSTRAP_UNKNOWN_SERVICE		1102
+#define	BOOTSTRAP_SERVICE_ACTIVE		1103
+#define	BOOTSTRAP_BAD_COUNT				1104
+#define	BOOTSTRAP_NO_MEMORY				1105
+#define BOOTSTRAP_NO_CHILDREN			1106
+
+#define BOOTSTRAP_STATUS_INACTIVE		0
+#define BOOTSTRAP_STATUS_ACTIVE			1
+#define BOOTSTRAP_STATUS_ON_DEMAND		2
+
 static bool _launchctl_system_bootstrap;
 static bool _launchctl_peruser_bootstrap;
 static bool _launchctl_overrides_db_changed = false;
@@ -45,6 +64,10 @@ static void unloadjob(launch_data_t job);
 static void do_mgroup_join(int fd, int family, int socktype, int protocol, const char *mgroup);
 static int _fd(int);
 static void do_application_firewall_magic(int sfd, launch_data_t thejob);
+static void setup_system_context(void);
+static mach_port_t str2bsport(const char *s);
+
+kern_return_t bootstrap_parent(mach_port_t bp, mach_port_t *parent_port);
 
 static inline Boolean _is_launch_data_t(launch_data_t obj) {
 	Boolean result = true;
@@ -91,7 +114,6 @@ launch_data_t launchctl_list_job(const char *job) {
 	} else if (launch_data_get_type(resp) == LAUNCH_DATA_DICTIONARY) {
 		r = 0;
 	} else {
-    fprintf(stderr, "received unexpected data type from launchctl\n");
     r = 1;
   }
 	
@@ -138,7 +160,9 @@ launch_data_status_t getjob(launch_data_t job) {
 
 jobs_list_t launchctl_list_jobs() {
 	launch_data_t resp = NULL;
-  
+  if (geteuid() == 0) {
+    setup_system_context();
+  }
 	if (vproc_swap_complex(NULL, VPROC_GSK_ALLJOBS, NULL, &resp) == NULL) {
     jobs_list_t res = malloc(sizeof(jobs_list_t));
     if (res == NULL) {
@@ -175,7 +199,6 @@ void launch_data_status_free(launch_data_status_t j) {
   free(j);
 }
 
-// Returns 0 on success
 int launchctl_start_job(const char *job) {
   launch_data_t resp, msg;
   int e, r = 0;
@@ -188,18 +211,15 @@ int launchctl_start_job(const char *job) {
     return errno;
   } else if (launch_data_get_type(resp) == LAUNCH_DATA_ERRNO) {
     if ((e = launch_data_get_errno(resp))) {
-      //fprintf(stderr, "start %s\n", strerror(e));
       r = e;
     }
   } else {
-    //fprintf(stderr, "launchctl returned unknown response\n");
     r = -1;
   }
   launch_data_free(resp);
   return r;
 }
 
-// Returns 0 on success
 int launchctl_stop_job(const char *job) {
   launch_data_t resp, msg;
   int e, r = 0;
@@ -209,21 +229,18 @@ int launchctl_stop_job(const char *job) {
   launch_data_free(msg);
   
   if (resp == NULL) {
-    //fprintf(stderr, "launch_msg(): %s\n", strerror(errno));
     return errno;
   } else if (launch_data_get_type(resp) == LAUNCH_DATA_ERRNO) {
     if ((e = launch_data_get_errno(resp))) {
       r = e;
     }
   } else {
-    //fprintf(stderr, "launchctl returned unknown response\n");
     r = -1;
   }
   launch_data_free(resp);
   return r;
 }
 
-// Returns 0 on success
 int launchctl_remove_job(const char *job) {
   launch_data_t resp, msg;
   int e, r = 0;
@@ -233,15 +250,12 @@ int launchctl_remove_job(const char *job) {
   launch_data_free(msg);
   
   if (resp == NULL) {
-    //fprintf(stderr, "launch_msg(): %s\n", strerror(errno));
     return errno;
   } else if (launch_data_get_type(resp) == LAUNCH_DATA_ERRNO) {
     if ((e = launch_data_get_errno(resp))) {
-      //fprintf(stderr, "remove %s\n", strerror(e));
       r = e;
     }
   } else {
-    //fprintf(stderr, "launchctl returned unknown response\n");
     r = -1;
   }
   launch_data_free(resp);
@@ -421,7 +435,14 @@ int launchctl_unload_job(const char *job) {
 	return 0;
 }
 
-
+char *launchctl_get_managername() {
+  char *mgmrname = NULL;
+  vproc_err_t verr = vproc_swap_string(NULL, VPROC_GSK_MGR_NAME, NULL, &mgmrname);
+  if (verr) {
+    return NULL;
+  }
+  return mgmrname;
+}
 
 
 CFTypeRef CFTypeCreateFromLaunchData(launch_data_t obj) {
@@ -1515,4 +1536,74 @@ void submit_job_pass(launch_data_t jobs) {
 	}
   
 	launch_data_free(msg);
+}
+
+void
+setup_system_context(void)
+{
+	if (getenv(LAUNCHD_SOCKET_ENV)) {
+		return;
+	}
+  
+	if (getenv(LAUNCH_ENV_KEEPCONTEXT)) {
+		return;
+	}
+  
+	if (geteuid() != 0) {
+		fprintf(stderr, "You must be the root user to perform this operation.");
+		return;
+	}
+  
+	/* Use the system launchd's socket. */
+	setenv("__USE_SYSTEM_LAUNCHD", "1", 0);
+  
+	/* Put ourselves in the system launchd's bootstrap. */
+	mach_port_t rootbs = str2bsport("/");
+	mach_port_deallocate(mach_task_self(), bootstrap_port);
+	task_set_bootstrap_port(mach_task_self(), rootbs);
+	bootstrap_port = rootbs;
+}
+
+mach_port_t
+str2bsport(const char *s)
+{
+	bool getrootbs = strcmp(s, "/") == 0;
+	mach_port_t last_bport, bport = bootstrap_port;
+	task_t task = mach_task_self();
+	kern_return_t result;
+  
+	if (strcmp(s, "..") == 0 || getrootbs) {
+		do {
+			last_bport = bport;
+			result = bootstrap_parent(last_bport, &bport);
+      
+			if (result == BOOTSTRAP_NOT_PRIVILEGED) {
+				fprintf(stderr, "Permission denied");
+				return 1;
+			} else if (result != BOOTSTRAP_SUCCESS) {
+				fprintf(stderr, "bootstrap_parent() %d", result);
+				return 1;
+			}
+		} while (getrootbs && last_bport != bport);
+	} else if (strcmp(s, "0") == 0 || strcmp(s, "NULL") == 0) {
+		bport = MACH_PORT_NULL;
+	} else {
+		int pid = atoi(s);
+    
+		result = task_for_pid(mach_task_self(), pid, &task);
+    
+		if (result != KERN_SUCCESS) {
+			fprintf(stderr, "task_for_pid() %s", mach_error_string(result));
+			return 1;
+		}
+    
+		result = task_get_bootstrap_port(task, &bport);
+    
+		if (result != KERN_SUCCESS) {
+			fprintf(stderr, "Couldn't get bootstrap port: %s", mach_error_string(result));
+			return 1;
+		}
+	}
+  
+	return bport;
 }
