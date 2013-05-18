@@ -200,7 +200,12 @@ void launch_data_status_free(launch_data_status_t j) {
 }
 
 int launchctl_start_job(const char *job) {
-  launch_data_t resp, msg;
+  
+	if (geteuid() == 0) {
+		setup_system_context();
+	}
+	
+	launch_data_t resp, msg;
   int e, r = 0;
   msg = launch_data_alloc(LAUNCH_DATA_DICTIONARY);
   launch_data_dict_insert(msg, launch_data_new_string(job), LAUNCH_KEY_STARTJOB);
@@ -221,7 +226,11 @@ int launchctl_start_job(const char *job) {
 }
 
 int launchctl_stop_job(const char *job) {
-  launch_data_t resp, msg;
+  if (geteuid() == 0) {
+		setup_system_context();
+	}
+	
+	launch_data_t resp, msg;
   int e, r = 0;
   msg = launch_data_alloc(LAUNCH_DATA_DICTIONARY);
   launch_data_dict_insert(msg, launch_data_new_string(job), LAUNCH_KEY_STOPJOB);
@@ -242,7 +251,11 @@ int launchctl_stop_job(const char *job) {
 }
 
 int launchctl_remove_job(const char *job) {
-  launch_data_t resp, msg;
+  if (geteuid() == 0) {
+		setup_system_context();
+	}
+	
+	launch_data_t resp, msg;
   int e, r = 0;
   msg = launch_data_alloc(LAUNCH_DATA_DICTIONARY);
   launch_data_dict_insert(msg, launch_data_new_string(job), LAUNCH_KEY_REMOVEJOB);
@@ -263,7 +276,11 @@ int launchctl_remove_job(const char *job) {
 }
 
 int launchctl_load_job(const char *job, bool editondisk, bool forceload, const char *session_type, const char *domain) {
-  NSSearchPathEnumerationState es = 0;
+  if (geteuid() == 0) {
+		setup_system_context();
+	}
+	
+	NSSearchPathEnumerationState es = 0;
   char nspath[PATH_MAX * 2];
   struct load_unload_state lus;
   size_t i;
@@ -360,7 +377,10 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
 }
 
 int launchctl_unload_job(const char *job) {
-  NSSearchPathEnumerationState es = 0;
+  if (geteuid() == 0) {
+		setup_system_context();
+	}
+	NSSearchPathEnumerationState es = 0;
   char nspath[PATH_MAX * 2];
   struct load_unload_state lus;
   size_t i;
@@ -436,7 +456,10 @@ int launchctl_unload_job(const char *job) {
 }
 
 char *launchctl_get_managername() {
-  char *mgmrname = NULL;
+  if (geteuid() == 0) {
+		setup_system_context();
+	}
+	char *mgmrname = NULL;
   vproc_err_t verr = vproc_swap_string(NULL, VPROC_GSK_MGR_NAME, NULL, &mgmrname);
   if (verr) {
     return NULL;
