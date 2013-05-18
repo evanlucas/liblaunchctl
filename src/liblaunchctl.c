@@ -102,7 +102,9 @@ static void _launch_data_iterate(launch_data_t obj, const char *key, CFMutableDi
 launch_data_t launchctl_list_job(const char *job) {
 	launch_data_t resp, msg = NULL;
 	int r = 0;
-
+  if (geteuid() == 0) {
+    setup_system_context();
+  }
 	msg = launch_data_alloc(LAUNCH_DATA_DICTIONARY);
 	launch_data_dict_insert(msg, launch_data_new_string(job), LAUNCH_KEY_GETJOB);
 	resp = launch_msg(msg);
