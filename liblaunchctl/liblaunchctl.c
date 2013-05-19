@@ -361,7 +361,7 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
   
 }
 
-int launchctl_unload_job(const char *job) {
+int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const char *session_type, const char *domain) {
   if (geteuid() == 0) {
 		setup_system_context();
 	}
@@ -371,7 +371,28 @@ int launchctl_unload_job(const char *job) {
   size_t i;
   memset(&lus, 0, sizeof(lus));
   lus.load = false;
-  es &= ~NSUserDomainMask;
+  lus.editondisk = editondisk;
+  lus.forceload = forceload;
+  lus.session_type = (char *)session_type;
+  if (domain == NULL) {
+    es &= ~NSUserDomainMask;
+  } else {
+    if (strcasecmp(domain, "all") == 0) {
+      es |= NSAllDomainsMask;
+    } else if (strcasecmp(domain, "user") == 0) {
+      es |= NSUserDomainMask;
+    } else if (strcasecmp(domain, "local") == 0) {
+      es |= NSLocalDomainMask;
+    } else if (strcasecmp(domain, "network") == 0) {
+      es |= NSNetworkDomainMask;
+    } else if (strcasecmp(domain, "system") == 0) {
+      es |= NSSystemDomainMask;
+    } else {
+      fprintf(stderr, "Invalid domain: %s\n", domain);
+      return 1;
+    }
+  }
+
   
   int dbfd = -1;
   
