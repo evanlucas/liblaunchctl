@@ -177,10 +177,14 @@ jobs_list_t launchctl_list_jobs() {
 }
 
 void jobs_list_free(jobs_list_t j) {
+  
   free(j);
 }
 
 void launch_data_status_free(launch_data_status_t j) {
+  if (j->label) {
+    free(j->label);
+  }
   free(j);
 }
 
@@ -473,6 +477,25 @@ char *launchctl_get_managername() {
   return mgmrname;
 }
 
+int64_t launchctl_get_manageruid() {
+  int64_t manager_uid = 0;
+  vproc_err_t verr = vproc_swap_integer(NULL, VPROC_GSK_MGR_UID, NULL, (int64_t *)&manager_uid);
+  if (verr) {
+    fprintf(stderr, "Unknown job manager\n");
+    return -1;
+  }
+  return manager_uid;
+}
+
+int launchctl_get_managerpid() {
+  int64_t manager_pid = 0;
+  vproc_err_t verr = vproc_swap_integer(NULL, VPROC_GSK_MGR_PID, NULL, (int64_t *)&manager_pid);
+  if (verr) {
+    fprintf(stderr, "Unkown job manager\n");
+    return -1;
+  }
+  return (int)manager_pid;
+}
 
 CFTypeRef CFTypeCreateFromLaunchData(launch_data_t obj) {
   CFTypeRef cfObj = NULL;

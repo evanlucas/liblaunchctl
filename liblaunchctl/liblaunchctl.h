@@ -140,6 +140,8 @@ int launchctl_remove_job(const char *job);
 int launchctl_load_job(const char *job, bool editondisk, bool forceload, const char *session_type, const char *domain);
 int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const char *session_type, const char *domain);
 char *launchctl_get_managername();
+int launchctl_get_managerpid();
+int64_t launchctl_get_manageruid();
 char *launchctl_get_session();
 #pragma mark Private
 

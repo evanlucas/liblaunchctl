@@ -65,3 +65,5 @@ vproc_swap_string(vproc_t vp, vproc_gsk_t key,
 
 vproc_err_t
 _vproc_send_signal_by_label(const char *label, int sig);
+
+vproc_err_t vproc_swap_integer(vproc_t vp, vproc_gsk_t key, int64_t *inval, int64_t *outval);
