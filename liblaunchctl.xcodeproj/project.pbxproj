@@ -56,7 +56,7 @@
 		10AE063417480C4F003A1803 /* launch_priv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = launch_priv.h; sourceTree = "<group>"; };
 		10AE063517480C4F003A1803 /* vproc_priv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vproc_priv.h; sourceTree = "<group>"; };
 		10AE063A17480C86003A1803 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		10AE065017480D2A003A1803 /* test_launchctl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test_launchctl; sourceTree = BUILT_PRODUCTS_DIR; };
+		10AE065017480D2A003A1803 /* launchctl_cli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = launchctl_cli; sourceTree = BUILT_PRODUCTS_DIR; };
 		10AE065217480D2A003A1803 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		10AE065417480D2A003A1803 /* test_launchctl.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = test_launchctl.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,7 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				10AE061A17480A42003A1803 /* liblaunchctl.dylib */,
-				10AE065017480D2A003A1803 /* test_launchctl */,
+				10AE065017480D2A003A1803 /* launchctl_cli */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -202,7 +202,7 @@
 			);
 			name = test_launchctl;
 			productName = test_launchctl;
-			productReference = 10AE065017480D2A003A1803 /* test_launchctl */;
+			productReference = 10AE065017480D2A003A1803 /* launchctl_cli */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -352,14 +352,22 @@
 		10AE065717480D2A003A1803 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DSTROOT = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				INSTALL_PATH = build;
+				PRODUCT_NAME = launchctl_cli;
 			};
 			name = Debug;
 		};
 		10AE065817480D2A003A1803 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				DEPLOYMENT_LOCATION = YES;
+				DEPLOYMENT_POSTPROCESSING = YES;
+				DSTROOT = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				INSTALL_PATH = build;
+				PRODUCT_NAME = launchctl_cli;
 			};
 			name = Release;
 		};

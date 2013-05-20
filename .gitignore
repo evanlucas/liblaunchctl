@@ -1,3 +1,11 @@
+*.o
+.dSYM
+main.c
+build/*.dylib
+test_launchctl
+build/
 DerivedData/
 OUTPUT_DIR/
 build/
+launchctl_cli*
+liblaunchctl.dylib*
