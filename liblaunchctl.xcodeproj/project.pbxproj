@@ -245,7 +245,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ls -la\nmkdir -p ../../build\ncp DerivedData/liblaunchctl/Build/Intermediates/liblaunchctl.build/Debugbuild/liblaunchctl.dylib ../../build";
+			shellScript = "ls -la\nmkdir -p ../../build\ncp DerivedData/liblaunchctl/Build/Intermediates/liblaunchctl.build/*build/liblaunchctl.dylib ../../build";
 		};
 /* End PBXShellScriptBuildPhase section */
 
