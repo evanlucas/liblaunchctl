@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "10AE064F17480D2A003A1803"
-               BuildableName = "test_launchctl"
+               BuildableName = "launchctl_cli"
                BlueprintName = "test_launchctl"
                ReferencedContainer = "container:liblaunchctl.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "10AE064F17480D2A003A1803"
-            BuildableName = "test_launchctl"
+            BuildableName = "launchctl_cli"
             BlueprintName = "test_launchctl"
             ReferencedContainer = "container:liblaunchctl.xcodeproj">
          </BuildableReference>
@@ -52,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "10AE064F17480D2A003A1803"
-            BuildableName = "test_launchctl"
+            BuildableName = "launchctl_cli"
             BlueprintName = "test_launchctl"
             ReferencedContainer = "container:liblaunchctl.xcodeproj">
          </BuildableReference>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "10AE064F17480D2A003A1803"
-            BuildableName = "test_launchctl"
+            BuildableName = "launchctl_cli"
             BlueprintName = "test_launchctl"
             ReferencedContainer = "container:liblaunchctl.xcodeproj">
          </BuildableReference>

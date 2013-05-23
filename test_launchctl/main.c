@@ -86,39 +86,39 @@ void print_obj(launch_data_t job, const char *key, void *context) {
 }
 
 int main(int argc, char *argv[]) {
-//	if (argc < 2) {
-//    return usage();
-//  }
-//  
-//  if (!strcmp(argv[1], "start")) {
-//    if (argc != 3) {
-//      return usage();
-//    } else {
-//      int r = launchctl_start_job(argv[2]);
-//      return r;
-//    }
-//  } else if (!strcmp(argv[1], "stop")) {
-//    if (argc != 3) {
-//      return usage();
-//    } else {
-//      int r = launchctl_stop_job(argv[2]);
-//      return r;
-//    }
-//  } else if (!strcmp(argv[1], "list")) {
-//    if (argc != 3) {
-//      return usage();
-//    } else {
-//      launch_data_t res = launchctl_list_job(argv[2]);
-//      if (res == NULL) {
-//        printf("Invalid job\n");
-//        return 1;
-//      } else {
-//        print_obj(res, NULL, NULL);
-//        launch_data_free(res);
-//        return 0;
-//      }
-//    }
-//  } else if (!strcmp(argv[1], "listall")) {
+	if (argc < 2) {
+    return usage();
+  }
+  
+  if (!strcmp(argv[1], "start")) {
+    if (argc != 3) {
+      return usage();
+    } else {
+      int r = launchctl_start_job(argv[2]);
+      return r;
+    }
+  } else if (!strcmp(argv[1], "stop")) {
+    if (argc != 3) {
+      return usage();
+    } else {
+      int r = launchctl_stop_job(argv[2]);
+      return r;
+    }
+  } else if (!strcmp(argv[1], "list")) {
+    if (argc != 3) {
+      return usage();
+    } else {
+      launch_data_t res = launchctl_list_job(argv[2]);
+      if (res == NULL) {
+        printf("Invalid job\n");
+        return 1;
+      } else {
+        print_obj(res, NULL, NULL);
+        launch_data_free(res);
+        return 0;
+      }
+    }
+  } else if (!strcmp(argv[1], "listall")) {
     jobs_list_t s = launchctl_list_jobs();
     if (s == NULL) {
       printf("An error occurred fetching all jobs\n");
@@ -132,9 +132,9 @@ int main(int argc, char *argv[]) {
     }
     launch_data_status_free(s->jobs);
     jobs_list_free(s);
-//  } else if (!strcmp(argv[1], "manager")) {
-//    char *mgmr = launchctl_get_managername();
-//    printf("Manager: %s\n", mgmr);
-//    free(mgmr);
-//  }
+  } else if (!strcmp(argv[1], "manager")) {
+    char *mgmr = launchctl_get_managername();
+    printf("Manager: %s\n", mgmr);
+    free(mgmr);
+  }
 }
