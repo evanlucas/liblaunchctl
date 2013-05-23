@@ -178,7 +178,6 @@
 				10AE061717480A42003A1803 /* Frameworks */,
 				10AE061817480A42003A1803 /* Headers */,
 				10AE065A17480DB0003A1803 /* CopyFiles */,
-				10959213174DA79A002629C1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -232,22 +231,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		10959213174DA79A002629C1 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "ls -la\nmkdir -p ../../build\ncp DerivedData/liblaunchctl/Build/Intermediates/liblaunchctl.build/*build/liblaunchctl.dylib ../../build";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		10AE061617480A42003A1803 /* Sources */ = {
