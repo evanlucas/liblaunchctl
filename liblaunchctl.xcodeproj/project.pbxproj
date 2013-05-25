@@ -42,6 +42,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1000C017174DC5FF00C8CBBD /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.md; sourceTree = SOURCE_ROOT; };
 		10AE061A17480A42003A1803 /* liblaunchctl.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = liblaunchctl.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		10AE061D17480A42003A1803 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		10AE062017480A42003A1803 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -131,6 +132,7 @@
 				10AE063517480C4F003A1803 /* vproc_priv.h */,
 				10AE062617480A42003A1803 /* liblaunchctl.h */,
 				10AE062717480A42003A1803 /* liblaunchctl.c */,
+				1000C017174DC5FF00C8CBBD /* TODO.md */,
 				10AE062417480A42003A1803 /* Supporting Files */,
 			);
 			path = liblaunchctl;

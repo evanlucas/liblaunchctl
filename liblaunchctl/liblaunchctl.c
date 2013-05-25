@@ -272,6 +272,7 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
 	NSSearchPathEnumerationState es = 0;
   char nspath[PATH_MAX * 2];
   struct load_unload_state lus;
+  int res = 0;
   size_t i;
   memset(&lus, 0, sizeof(lus));
   lus.load = true;
@@ -348,7 +349,7 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
   
 	if (lus.load) {
 		distill_jobs(lus.pass1);
-		submit_job_pass(lus.pass1);
+		res = submit_job_pass(lus.pass1);
 	} else {
 		for (i = 0; i < launch_data_array_get_count(lus.pass1); i++) {
 			unloadjob(launch_data_array_get_index(lus.pass1, i));
@@ -361,7 +362,7 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
   
 	flock(dbfd, LOCK_UN);
 	close(dbfd);
-	return 0;
+	return res;
   
 }
 
@@ -1531,13 +1532,13 @@ bool path_check(const char *path) {
 	return false;
 }
 
-void submit_job_pass(launch_data_t jobs) {
+int submit_job_pass(launch_data_t jobs) {
 	launch_data_t msg, resp;
 	size_t i;
 	int e;
   
 	if (launch_data_array_get_count(jobs) == 0)
-		return;
+		return -1;
   
 	msg = launch_data_alloc(LAUNCH_DATA_DICTIONARY);
   
@@ -1549,7 +1550,8 @@ void submit_job_pass(launch_data_t jobs) {
 		switch (launch_data_get_type(resp)) {
       case LAUNCH_DATA_ERRNO:
         if ((e = launch_data_get_errno(resp)))
-          fprintf(stderr, "%s", strerror(e));
+          return e;
+          //fprintf(stderr, "%s", strerror(e));
         break;
       case LAUNCH_DATA_ARRAY:
         for (i = 0; i < launch_data_array_get_count(jobs); i++) {
@@ -1580,6 +1582,7 @@ void submit_job_pass(launch_data_t jobs) {
         break;
       default:
         fprintf(stderr, "unknown respose from launchd!");
+        return -1;
         break;
 		}
 		launch_data_free(resp);
@@ -1588,6 +1591,7 @@ void submit_job_pass(launch_data_t jobs) {
 	}
   
 	launch_data_free(msg);
+  return e;
 }
 
 void

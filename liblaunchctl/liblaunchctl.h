@@ -161,5 +161,5 @@ void WriteMyPropertyListToFile(CFPropertyListRef, const char *);
 bool path_goodness_check(const char *path, bool forceload);
 void readpath(const char *, struct load_unload_state *);
 void readfile(const char *, struct load_unload_state *);
-void submit_job_pass(launch_data_t jobs);
+int submit_job_pass(launch_data_t jobs);
 bool path_check(const char *path);

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "liblaunchctl.h"
+//#include "vproc_priv.h"
 
 int usage() {
   printf("usage:\n");
@@ -136,5 +137,14 @@ int main(int argc, char *argv[]) {
     char *mgmr = launchctl_get_managername();
     printf("Manager: %s\n", mgmr);
     free(mgmr);
+  } else if (!strcmp(argv[1], "trysomething")) {
+    char *sess = NULL;
+    vproc_err_t verr = vproc_swap_string(NULL, VPROC_GSK_SECURITYSESSION, NULL, &sess);
+    if (verr) {
+      fprintf(stderr, "vproc returned error: %d, %s\n", errno, strerror(errno));
+      fprintf(stdout, "session: %s\n", sess);
+    } else {
+      fprintf(stdout, "session: %s\n", sess);
+    }
   }
 }

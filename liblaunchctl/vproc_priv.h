@@ -29,6 +29,18 @@
 #include <launch.h>
 #include <vproc.h>
 
+#define VPROCMGR_SESSION_LOGINWINDOW "LoginWindow"
+#define VPROCMGR_SESSION_BACKGROUND "Background"
+#define VPROCMGR_SESSION_AQUA "Aqua"
+#define VPROCMGR_SESSION_STANDARDIO "StandardIO"
+#define VPROCMGR_SESSION_SYSTEM "System"
+
+#define XPC_DOMAIN_TYPE_SYSTEM	 "XPCSystem"
+#define XPC_DOMAIN_TYPE_PERUSER "XPCPerUser"
+#define XPC_DOMAIN_TYPE_PERSESSION "XPCPerSession"
+#define XPC_DOMAIN_TYPE_PERAPPLICATION "XPCPerApplication"
+
+
 typedef enum {
 	VPROC_GSK_ZERO,
 	VPROC_GSK_LAST_EXIT_STATUS,
@@ -67,3 +79,4 @@ vproc_err_t
 _vproc_send_signal_by_label(const char *label, int sig);
 
 vproc_err_t vproc_swap_integer(vproc_t vp, vproc_gsk_t key, int64_t *inval, int64_t *outval);
+const char *vproc_strerror(vproc_err_t r);
