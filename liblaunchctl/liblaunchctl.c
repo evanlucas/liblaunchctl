@@ -29,6 +29,9 @@
 #define BOOTSTRAP_STATUS_ACTIVE			1
 #define BOOTSTRAP_STATUS_ON_DEMAND		2
 
+
+
+
 static bool _launchctl_system_bootstrap;
 static bool _launchctl_peruser_bootstrap;
 static bool _launchctl_overrides_db_changed = false;
@@ -294,7 +297,7 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
       es |= NSSystemDomainMask;
     } else {
       fprintf(stderr, "Invalid domain: %s\n", domain);
-      return 1;
+      return EINVDOM;
     }
   }
   
@@ -347,14 +350,8 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
     return 1;
 	}
   
-	if (lus.load) {
-		distill_jobs(lus.pass1);
-		res = submit_job_pass(lus.pass1);
-	} else {
-		for (i = 0; i < launch_data_array_get_count(lus.pass1); i++) {
-			unloadjob(launch_data_array_get_index(lus.pass1, i));
-		}
-	}
+  distill_jobs(lus.pass1);
+  res = submit_job_pass(lus.pass1);
   
 	if (_launchctl_overrides_db_changed) {
 		WriteMyPropertyListToFile(_launchctl_overrides_db, _launchctl_job_overrides_db_path);
@@ -373,6 +370,7 @@ int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const
 	NSSearchPathEnumerationState es = 0;
   char nspath[PATH_MAX * 2];
   struct load_unload_state lus;
+  int res = 0;
   size_t i;
   memset(&lus, 0, sizeof(lus));
   lus.load = false;
@@ -397,7 +395,7 @@ int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const
       return 1;
     }
   }
-
+  
   
   int dbfd = -1;
   
@@ -445,17 +443,23 @@ int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const
 	if (launch_data_array_get_count(lus.pass1) == 0) {
 		launch_data_free(lus.pass1);
 		//return _launchctl_is_managed ? 0 : 1;
+    // No job found???
+    
     return 1;
 	}
   
-	if (lus.load) {
-		distill_jobs(lus.pass1);
-		submit_job_pass(lus.pass1);
-	} else {
-		for (i = 0; i < launch_data_array_get_count(lus.pass1); i++) {
-			unloadjob(launch_data_array_get_index(lus.pass1, i));
-		}
-	}
+  for (i = 0; i < launch_data_array_get_count(lus.pass1); i++) {
+    launch_data_t tmps;
+    tmps = launch_data_dict_lookup(launch_data_array_get_index(lus.pass1, i), LAUNCH_JOBKEY_LABEL);
+    if (!tmps) {
+      // Missing key LAUNCH_JOBKEY_LABEL
+    }
+    
+    if (_vproc_send_signal_by_label(launch_data_get_string(tmps), VPROC_MAGIC_UNLOAD_SIGNAL) != NULL) {
+      // Error unloading
+    }
+  }
+	
   
 	if (_launchctl_overrides_db_changed) {
 		WriteMyPropertyListToFile(_launchctl_overrides_db, _launchctl_job_overrides_db_path);
@@ -1099,21 +1103,24 @@ static launch_data_t read_plist_file(const char *file, bool editondisk, bool loa
 	return r;
 }
 
-void unloadjob(launch_data_t job) {
-	launch_data_t tmps;
-  
-	tmps = launch_data_dict_lookup(job, LAUNCH_JOBKEY_LABEL);
-  
-	if (!tmps) {
-		fprintf(stderr, "Error: Missing Key: %s", LAUNCH_JOBKEY_LABEL);
-		return;
-	}
-  
-	if (_vproc_send_signal_by_label(launch_data_get_string(tmps), VPROC_MAGIC_UNLOAD_SIGNAL) != NULL) {
-		fprintf(stderr, "Error unloading: %s", launch_data_get_string(tmps));
-	}
-}
-
+/*
+ 
+ void unloadjob(launch_data_t job) {
+ launch_data_t tmps;
+ 
+ tmps = launch_data_dict_lookup(job, LAUNCH_JOBKEY_LABEL);
+ 
+ if (!tmps) {
+ fprintf(stderr, "Error: Missing Key: %s", LAUNCH_JOBKEY_LABEL);
+ return;
+ }
+ 
+ if (_vproc_send_signal_by_label(launch_data_get_string(tmps), VPROC_MAGIC_UNLOAD_SIGNAL) != NULL) {
+ fprintf(stderr, "Error unloading: %s", launch_data_get_string(tmps));
+ }
+ }
+ 
+ */
 
 struct distill_context {
 	launch_data_t base;
@@ -1536,7 +1543,7 @@ int submit_job_pass(launch_data_t jobs) {
 	launch_data_t msg, resp;
 	size_t i;
 	int e;
-  
+  int res = 0;
 	if (launch_data_array_get_count(jobs) == 0)
 		return -1;
   
@@ -1551,7 +1558,7 @@ int submit_job_pass(launch_data_t jobs) {
       case LAUNCH_DATA_ERRNO:
         if ((e = launch_data_get_errno(resp)))
           return e;
-          //fprintf(stderr, "%s", strerror(e));
+        //fprintf(stderr, "%s", strerror(e));
         break;
       case LAUNCH_DATA_ARRAY:
         for (i = 0; i < launch_data_array_get_count(jobs); i++) {
@@ -1564,16 +1571,20 @@ int submit_job_pass(launch_data_t jobs) {
               case EEXIST:
                 fprintf(stderr, "%s: %s", lab4job, "Already loaded");
                 errno = EALLOAD;
+                res = EALLOAD;
                 break;
               case ESRCH:
                 fprintf(stderr, "%s: %s", lab4job, "Not loaded");
                 errno = ENOLOAD;
+                res = ENOLOAD;
                 break;
               case ENEEDAUTH:
                 fprintf(stderr, "%s: %s", lab4job, "Could not set security session");
                 errno = ESETSEC;
+                res = ESETSEC;
               default:
                 fprintf(stderr, "%s: %s", lab4job, strerror(e));
+                res = e;
               case 0:
                 break;
             }
@@ -1582,16 +1593,18 @@ int submit_job_pass(launch_data_t jobs) {
         break;
       default:
         fprintf(stderr, "unknown respose from launchd!");
-        return -1;
+        e = EUNKRES;
+        res = EUNKRES;
         break;
 		}
 		launch_data_free(resp);
 	} else {
 		fprintf(stderr, "launch_msg(): %s", strerror(errno));
+    res = errno;
 	}
   
 	launch_data_free(msg);
-  return e;
+  return res;
 }
 
 void

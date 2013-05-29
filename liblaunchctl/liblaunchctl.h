@@ -67,9 +67,13 @@
 extern int * __error(void);
 #define errno (*__error())
 
-#define EALLOAD 144
-#define ENOLOAD 145
-#define ESETSEC 146
+// Custom Error numbers
+#define EINVDOM 201   // Invalid domain
+#define ENOJOBS 202   // No jobs found
+#define EALLOAD 203   // Job already loaded
+#define ENOLOAD 204   // Job not loaded
+#define ESETSEC 205   // Could not set security session
+#define EUNKRES 206   // Unknown response from launchd
 
 struct _launch_data {
   uint64_t type;
