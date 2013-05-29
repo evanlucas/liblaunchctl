@@ -49,6 +49,24 @@ static int _fd(int);
 static void do_application_firewall_magic(int sfd, launch_data_t thejob);
 static void setup_system_context(void);
 static mach_port_t str2bsport(const char *s);
+CFTypeRef CFTypeCreateFromLaunchData(launch_data_t obj);
+CFArrayRef CFArrayCreateFromLaunchArray(launch_data_t arr);
+CFDictionaryRef CFDictionaryCreateFromLaunchDictionary(launch_data_t dict);
+bool launch_data_array_append(launch_data_t a, launch_data_t o);
+void insert_event(launch_data_t, const char *, const char *, launch_data_t);
+void distill_jobs(launch_data_t);
+void distill_config_file(launch_data_t);
+void distill_fsevents(launch_data_t);
+void sock_dict_cb(launch_data_t what, const char *key, void *context);
+void sock_dict_edit_entry(launch_data_t tmp, const char *key, launch_data_t fdarray, launch_data_t thejob);
+CFPropertyListRef CreateMyPropertyListFromFile(const char *);
+CFPropertyListRef CFPropertyListCreateFromFile(CFURLRef plistURL);
+void WriteMyPropertyListToFile(CFPropertyListRef, const char *);
+bool path_goodness_check(const char *path, bool forceload);
+void readpath(const char *, struct load_unload_state *);
+void readfile(const char *, struct load_unload_state *);
+int submit_job_pass(launch_data_t jobs);
+bool path_check(const char *path);
 
 kern_return_t bootstrap_parent(mach_port_t bp, mach_port_t *parent_port);
 
@@ -81,6 +99,7 @@ static void _launch_data_iterate(launch_data_t obj, const char *key, CFMutableDi
 		CFRelease(cfKey);
 	}
 }
+
 
 launch_data_t launchctl_list_job(const char *job) {
 	launch_data_t resp, msg = NULL;
@@ -343,18 +362,11 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
   
 	if (launch_data_array_get_count(lus.pass1) == 0) {
 		launch_data_free(lus.pass1);
-		//return _launchctl_is_managed ? 0 : 1;
     return 1;
 	}
   
-	if (lus.load) {
-		distill_jobs(lus.pass1);
-		res = submit_job_pass(lus.pass1);
-	} else {
-		for (i = 0; i < launch_data_array_get_count(lus.pass1); i++) {
-			unloadjob(launch_data_array_get_index(lus.pass1, i));
-		}
-	}
+  distill_jobs(lus.pass1);
+  res = submit_job_pass(lus.pass1);
   
 	if (_launchctl_overrides_db_changed) {
 		WriteMyPropertyListToFile(_launchctl_overrides_db, _launchctl_job_overrides_db_path);
@@ -372,6 +384,7 @@ int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const
 	}
 	NSSearchPathEnumerationState es = 0;
   char nspath[PATH_MAX * 2];
+  int res = 0;
   struct load_unload_state lus;
   size_t i;
   memset(&lus, 0, sizeof(lus));
@@ -394,7 +407,7 @@ int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const
       es |= NSSystemDomainMask;
     } else {
       fprintf(stderr, "Invalid domain: %s\n", domain);
-      return 1;
+      return EINVDOM;
     }
   }
 
@@ -444,18 +457,21 @@ int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const
   
 	if (launch_data_array_get_count(lus.pass1) == 0) {
 		launch_data_free(lus.pass1);
-		//return _launchctl_is_managed ? 0 : 1;
     return 1;
 	}
   
-	if (lus.load) {
-		distill_jobs(lus.pass1);
-		submit_job_pass(lus.pass1);
-	} else {
-		for (i = 0; i < launch_data_array_get_count(lus.pass1); i++) {
-			unloadjob(launch_data_array_get_index(lus.pass1, i));
-		}
-	}
+  for (i = 0; i < launch_data_array_get_count(lus.pass1); i++) {
+    launch_data_t tmps;
+    tmps = launch_data_dict_lookup(launch_data_array_get_index(lus.pass1, i), LAUNCH_JOBKEY_LABEL);
+    if (!tmps) {
+      fprintf(stderr, "Error: Missing Key: %s\n", LAUNCH_JOBKEY_LABEL);
+      res = -1;
+    }
+    
+    if (_vproc_send_signal_by_label(launch_data_get_string(tmps), VPROC_MAGIC_UNLOAD_SIGNAL) != NULL) {
+      return ENOUNLO;
+    }
+  }
   
 	if (_launchctl_overrides_db_changed) {
 		WriteMyPropertyListToFile(_launchctl_overrides_db, _launchctl_job_overrides_db_path);
@@ -463,7 +479,7 @@ int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const
   
 	flock(dbfd, LOCK_UN);
 	close(dbfd);
-	return 0;
+	return res;
 }
 
 char *launchctl_get_managername() {
@@ -1535,7 +1551,7 @@ bool path_check(const char *path) {
 int submit_job_pass(launch_data_t jobs) {
 	launch_data_t msg, resp;
 	size_t i;
-	int e;
+	int e = 0;
   
 	if (launch_data_array_get_count(jobs) == 0)
 		return -1;

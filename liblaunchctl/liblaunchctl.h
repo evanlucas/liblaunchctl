@@ -67,9 +67,11 @@
 extern int * __error(void);
 #define errno (*__error())
 
-#define EALLOAD 144
-#define ENOLOAD 145
-#define ESETSEC 146
+#define EALLOAD 144 // Already loaded
+#define ENOLOAD 145 // Not loaded
+#define ESETSEC 146 // Could not set security session
+#define EINVDOM 147 // Invalid domain
+#define ENOUNLO 148 // Error unloading
 
 struct _launch_data {
   uint64_t type;
@@ -145,21 +147,4 @@ int64_t launchctl_get_manageruid();
 char *launchctl_get_session();
 #pragma mark Private
 
-CFTypeRef CFTypeCreateFromLaunchData(launch_data_t obj);
-CFArrayRef CFArrayCreateFromLaunchArray(launch_data_t arr);
-CFDictionaryRef CFDictionaryCreateFromLaunchDictionary(launch_data_t dict);
-bool launch_data_array_append(launch_data_t a, launch_data_t o);
-void insert_event(launch_data_t, const char *, const char *, launch_data_t);
-void distill_jobs(launch_data_t);
-void distill_config_file(launch_data_t);
-void distill_fsevents(launch_data_t);
-void sock_dict_cb(launch_data_t what, const char *key, void *context);
-void sock_dict_edit_entry(launch_data_t tmp, const char *key, launch_data_t fdarray, launch_data_t thejob);
-CFPropertyListRef CreateMyPropertyListFromFile(const char *);
-CFPropertyListRef CFPropertyListCreateFromFile(CFURLRef plistURL);
-void WriteMyPropertyListToFile(CFPropertyListRef, const char *);
-bool path_goodness_check(const char *path, bool forceload);
-void readpath(const char *, struct load_unload_state *);
-void readfile(const char *, struct load_unload_state *);
-int submit_job_pass(launch_data_t jobs);
-bool path_check(const char *path);
+
