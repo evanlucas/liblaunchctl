@@ -73,7 +73,7 @@ extern int * __error(void);
 #define ENOUNLO 147 // Job not unloaded
 #define EIVALDO 148 // Invalid domain
 #define EJNFOUN 149 // Job not found
-
+#define EINCMD 150 // Invalid command
 struct _launch_data {
   uint64_t type;
   union {
