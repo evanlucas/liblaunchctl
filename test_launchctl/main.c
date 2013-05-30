@@ -13,6 +13,9 @@ int usage() {
   printf("\tlistall\n");
   printf("\tload <path>\n");
   printf("\tunload <path>\n");
+  printf("\tmanagername\n");
+  printf("\tmanagerpid\n");
+  printf("\tmanageruid\n");
   return 1;
 }
 
@@ -133,18 +136,24 @@ int main(int argc, char *argv[]) {
     }
     launch_data_status_free(s->jobs);
     jobs_list_free(s);
-  } else if (!strcmp(argv[1], "manager")) {
+  } else if (!strcmp(argv[1], "load")) {
+    if (argc != 3) {
+      return usage();
+    } else {
+      int res = launchctl_load_job(argv[2], false, false, NULL, NULL);
+      printf("Result: %d\n", res);
+    }
+  } else if (!strcmp(argv[1], "managername")) {
     char *mgmr = launchctl_get_managername();
     printf("Manager: %s\n", mgmr);
     free(mgmr);
-  } else if (!strcmp(argv[1], "trysomething")) {
-    char *sess = NULL;
-    vproc_err_t verr = vproc_swap_string(NULL, VPROC_GSK_SECURITYSESSION, NULL, &sess);
-    if (verr) {
-      fprintf(stderr, "vproc returned error: %d, %s\n", errno, strerror(errno));
-      fprintf(stdout, "session: %s\n", sess);
-    } else {
-      fprintf(stdout, "session: %s\n", sess);
-    }
+  } else if (!strcmp(argv[1], "manageruid")) {
+    int uid = launchctl_get_manageruid();
+    printf("Manager UID: %d\n", uid);
+  } else if (!strcmp(argv[1], "managerpid")) {
+    int pid = launchctl_get_managerpid();
+    printf("Manager PID: %d\n", pid);
+  } else {
+    usage();
   }
 }

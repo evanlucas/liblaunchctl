@@ -49,6 +49,25 @@ static int _fd(int);
 static void do_application_firewall_magic(int sfd, launch_data_t thejob);
 static void setup_system_context(void);
 static mach_port_t str2bsport(const char *s);
+CFTypeRef CFTypeCreateFromLaunchData(launch_data_t obj);
+CFArrayRef CFArrayCreateFromLaunchArray(launch_data_t arr);
+CFDictionaryRef CFDictionaryCreateFromLaunchDictionary(launch_data_t dict);
+bool launch_data_array_append(launch_data_t a, launch_data_t o);
+void insert_event(launch_data_t, const char *, const char *, launch_data_t);
+void distill_jobs(launch_data_t);
+void distill_config_file(launch_data_t);
+void distill_fsevents(launch_data_t);
+void sock_dict_cb(launch_data_t what, const char *key, void *context);
+void sock_dict_edit_entry(launch_data_t tmp, const char *key, launch_data_t fdarray, launch_data_t thejob);
+CFPropertyListRef CreateMyPropertyListFromFile(const char *);
+CFPropertyListRef CFPropertyListCreateFromFile(CFURLRef plistURL);
+void WriteMyPropertyListToFile(CFPropertyListRef, const char *);
+bool path_goodness_check(const char *path, bool forceload);
+void readpath(const char *, struct load_unload_state *);
+void readfile(const char *, struct load_unload_state *);
+int submit_job_pass(launch_data_t jobs);
+bool path_check(const char *path);
+
 
 kern_return_t bootstrap_parent(mach_port_t bp, mach_port_t *parent_port);
 
@@ -294,10 +313,9 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
       es |= NSSystemDomainMask;
     } else {
       fprintf(stderr, "Invalid domain: %s\n", domain);
-      return 1;
+      return EIVALDO;
     }
   }
-  
   int dbfd = -1;
   
   vproc_err_t verr = vproc_swap_string(NULL, VPROC_GSK_JOB_OVERRIDES_DB, NULL, &_launchctl_job_overrides_db_path);
@@ -321,7 +339,6 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
 	lus.pass1 = launch_data_alloc(LAUNCH_DATA_ARRAY);
   
 	es = NSStartSearchPathEnumeration(NSLibraryDirectory, es);
-  
 	while ((es = NSGetNextSearchPathEnumeration(es, nspath))) {
 		glob_t g;
     
@@ -343,18 +360,11 @@ int launchctl_load_job(const char *job, bool editondisk, bool forceload, const c
   
 	if (launch_data_array_get_count(lus.pass1) == 0) {
 		launch_data_free(lus.pass1);
-		//return _launchctl_is_managed ? 0 : 1;
-    return 1;
+    return EJNFOUN;
 	}
   
-	if (lus.load) {
-		distill_jobs(lus.pass1);
-		res = submit_job_pass(lus.pass1);
-	} else {
-		for (i = 0; i < launch_data_array_get_count(lus.pass1); i++) {
-			unloadjob(launch_data_array_get_index(lus.pass1, i));
-		}
-	}
+  distill_jobs(lus.pass1);
+  res = submit_job_pass(lus.pass1);
   
 	if (_launchctl_overrides_db_changed) {
 		WriteMyPropertyListToFile(_launchctl_overrides_db, _launchctl_job_overrides_db_path);
@@ -394,7 +404,7 @@ int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const
       es |= NSSystemDomainMask;
     } else {
       fprintf(stderr, "Invalid domain: %s\n", domain);
-      return 1;
+      return EIVALDO;
     }
   }
 
@@ -444,18 +454,21 @@ int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const
   
 	if (launch_data_array_get_count(lus.pass1) == 0) {
 		launch_data_free(lus.pass1);
-		//return _launchctl_is_managed ? 0 : 1;
-    return 1;
+    return EJNFOUN;
 	}
   
-	if (lus.load) {
-		distill_jobs(lus.pass1);
-		submit_job_pass(lus.pass1);
-	} else {
-		for (i = 0; i < launch_data_array_get_count(lus.pass1); i++) {
-			unloadjob(launch_data_array_get_index(lus.pass1, i));
-		}
-	}
+
+  for (i = 0; i < launch_data_array_get_count(lus.pass1); i++) {
+    launch_data_t tmps;
+    tmps = launch_data_dict_lookup(launch_data_array_get_index(lus.pass1, i), LAUNCH_JOBKEY_LABEL);
+    if (!tmps) {
+      return -1;
+    }
+    
+    if (_vproc_send_signal_by_label(launch_data_get_string(tmps), VPROC_MAGIC_UNLOAD_SIGNAL) != NULL) {
+      return ENOLOAD;
+    }
+  }
   
 	if (_launchctl_overrides_db_changed) {
 		WriteMyPropertyListToFile(_launchctl_overrides_db, _launchctl_job_overrides_db_path);
@@ -1535,7 +1548,7 @@ bool path_check(const char *path) {
 int submit_job_pass(launch_data_t jobs) {
 	launch_data_t msg, resp;
 	size_t i;
-	int e;
+	int e = 0;
   
 	if (launch_data_array_get_count(jobs) == 0)
 		return -1;
@@ -1562,18 +1575,21 @@ int submit_job_pass(launch_data_t jobs) {
             e = launch_data_get_errno(obatind);
             switch (e) {
               case EEXIST:
-                fprintf(stderr, "%s: %s", lab4job, "Already loaded");
+                //fprintf(stderr, "%s: %s", lab4job, "Already loaded");
                 errno = EALLOAD;
+                e = EALLOAD;
                 break;
               case ESRCH:
-                fprintf(stderr, "%s: %s", lab4job, "Not loaded");
+                //fprintf(stderr, "%s: %s", lab4job, "Not loaded");
                 errno = ENOLOAD;
+                e = ENOLOAD;
                 break;
               case ENEEDAUTH:
-                fprintf(stderr, "%s: %s", lab4job, "Could not set security session");
+                //fprintf(stderr, "%s: %s", lab4job, "Could not set security session");
                 errno = ESETSEC;
+                e = ESETSEC;
               default:
-                fprintf(stderr, "%s: %s", lab4job, strerror(e));
+                //fprintf(stderr, "%s: %s", lab4job, strerror(e));
               case 0:
                 break;
             }
