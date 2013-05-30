@@ -101,6 +101,7 @@ static void _launch_data_iterate(launch_data_t obj, const char *key, CFMutableDi
 	}
 }
 
+
 launch_data_t launchctl_list_job(const char *job) {
 	launch_data_t resp, msg = NULL;
 	int r = 0;
@@ -382,6 +383,7 @@ int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const
 	}
 	NSSearchPathEnumerationState es = 0;
   char nspath[PATH_MAX * 2];
+  int res = 0;
   struct load_unload_state lus;
   size_t i;
   memset(&lus, 0, sizeof(lus));
@@ -476,7 +478,7 @@ int launchctl_unload_job(const char *job, bool editondisk, bool forceload, const
   
 	flock(dbfd, LOCK_UN);
 	close(dbfd);
-	return 0;
+	return res;
 }
 
 char *launchctl_get_managername() {

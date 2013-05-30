@@ -4,7 +4,7 @@
 
 int usage() {
   printf("usage:\n");
-  printf("\t./test_launchctl <command> <options>\n");
+  printf("\t./launchctl_cli <command> <options>\n");
   printf("\n");
   printf("commands:\n");
   printf("\tstart <job_label>\n");
