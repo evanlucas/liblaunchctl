@@ -11,3 +11,4 @@ liblaunchctl.xcodeproj/project.xcworkspace/xcuserdata/elucas.xcuserdatad/UserInt
 xcuserdata
 *.pbxuser
 !default.pbxuser
+.DS_Store
