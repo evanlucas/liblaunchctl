@@ -4,12 +4,15 @@
 
 		git clone git://github.com/evanlucas/liblaunchctl.git
 		cd liblaunchctl
-		make
+		node-gyp configure
+		node-gyp build
 
 ### Dependencies
 
 - Xcode (including CLI tools)
 - Mac OS X 10.8+
+- [Node.js](http://nodejs.org)
+- [node-gyp](https://github.com/TooTallNate/node-gyp)
 
 ### API
 

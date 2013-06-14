@@ -43,7 +43,6 @@ static launch_data_t CF2launch_data(CFTypeRef);
 static void job_disabled_dict_logic(launch_data_t obj, const char *key, void *context);
 static void job_override(CFTypeRef key, CFTypeRef val, CFMutableDictionaryRef job);
 static bool job_disabled_logic(launch_data_t obj);
-static void unloadjob(launch_data_t job);
 static void do_mgroup_join(int fd, int family, int socktype, int protocol, const char *mgroup);
 static int _fd(int);
 static void do_application_firewall_magic(int sfd, launch_data_t thejob);
@@ -1114,22 +1113,6 @@ static launch_data_t read_plist_file(const char *file, bool editondisk, bool loa
 	return r;
 }
 
-void unloadjob(launch_data_t job) {
-	launch_data_t tmps;
-  
-	tmps = launch_data_dict_lookup(job, LAUNCH_JOBKEY_LABEL);
-  
-	if (!tmps) {
-		fprintf(stderr, "Error: Missing Key: %s", LAUNCH_JOBKEY_LABEL);
-		return;
-	}
-  
-	if (_vproc_send_signal_by_label(launch_data_get_string(tmps), VPROC_MAGIC_UNLOAD_SIGNAL) != NULL) {
-		fprintf(stderr, "Error unloading: %s", launch_data_get_string(tmps));
-	}
-}
-
-
 struct distill_context {
 	launch_data_t base;
 	launch_data_t newsockdict;
@@ -1571,8 +1554,8 @@ int submit_job_pass(launch_data_t jobs) {
       case LAUNCH_DATA_ARRAY:
         for (i = 0; i < launch_data_array_get_count(jobs); i++) {
           launch_data_t obatind = launch_data_array_get_index(resp, i);
-          launch_data_t jatind = launch_data_array_get_index(jobs, i);
-          const char *lab4job = launch_data_get_string(launch_data_dict_lookup(jatind, LAUNCH_JOBKEY_LABEL));
+//          launch_data_t jatind = launch_data_array_get_index(jobs, i);
+//          const char *lab4job = launch_data_get_string(launch_data_dict_lookup(jatind, LAUNCH_JOBKEY_LABEL));
           if (LAUNCH_DATA_ERRNO == launch_data_get_type(obatind)) {
             e = launch_data_get_errno(obatind);
             switch (e) {
