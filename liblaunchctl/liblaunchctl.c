@@ -129,7 +129,7 @@ launch_data_t launchctl_list_job(const char *job) {
 }
 
 launch_data_status_t getjob(launch_data_t job) {
-  launch_data_status_t result = calloc(1, sizeof(launch_data_status_t));
+  launch_data_status_t result = calloc(1, sizeof(struct ldtstatus));
   if (result == NULL) {
     fprintf(stderr, "Unable to allocate memory: %s\n", "launch_data_status_t getjob()");
     return NULL;
@@ -168,13 +168,19 @@ jobs_list_t launchctl_list_jobs() {
     setup_system_context();
   }
 	if (vproc_swap_complex(NULL, VPROC_GSK_ALLJOBS, NULL, &resp) == NULL) {
-    jobs_list_t res = malloc(sizeof(jobs_list_t));
+    jobs_list_t res = malloc(sizeof(struct jobslist));
     if (res == NULL) {
       fprintf(stderr, "Unable to allocate memory: %s\n", "jobs_list_t launchctl_list_jobs()");
       return NULL;
     }
-    int count = resp->_array_cnt;
+    int count = (int)resp->_array_cnt;
     if (LAUNCH_DATA_DICTIONARY != resp->type) {
+        if (resp != NULL) {
+            launch_data_free(resp);
+        }
+        if (res) {
+            free(res);
+        }
       return NULL;
     }
     
@@ -566,7 +572,7 @@ CFArrayRef CFArrayCreateFromLaunchArray(launch_data_t arr) {
 	CFMutableArrayRef mutResult = CFArrayCreateMutable(NULL, 0, &kCFTypeArrayCallBacks);
   
 	if (launch_data_get_type(arr) == LAUNCH_DATA_ARRAY) {
-		unsigned int count = launch_data_array_get_count(arr);
+		unsigned int count = (unsigned int)launch_data_array_get_count(arr);
 		unsigned int i = 0;
     
 		for (i = 0; i < count; i++) {
@@ -1055,6 +1061,9 @@ void WriteMyPropertyListToFile(CFPropertyListRef plist, const char *posixfile) {
 	if (resourceData) {
 		CFRelease(resourceData);
 	}
+    if (fileURL) {
+        CFRelease(fileURL);
+    }
 }
 
 bool launch_data_array_append(launch_data_t a, launch_data_t o) {

@@ -148,8 +148,8 @@ int main(int argc, char *argv[]) {
     printf("Manager: %s\n", mgmr);
     free(mgmr);
   } else if (!strcmp(argv[1], "manageruid")) {
-    int uid = launchctl_get_manageruid();
-    printf("Manager UID: %d\n", uid);
+    int64_t uid = launchctl_get_manageruid();
+    printf("Manager UID: %lld\n", uid);
   } else if (!strcmp(argv[1], "managerpid")) {
     int pid = launchctl_get_managerpid();
     printf("Manager PID: %d\n", pid);

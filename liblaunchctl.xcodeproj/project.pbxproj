@@ -16,8 +16,23 @@
 		10AE063B17480C86003A1803 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10AE063A17480C86003A1803 /* CoreFoundation.framework */; };
 		10AE065317480D2A003A1803 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 10AE065217480D2A003A1803 /* main.c */; };
 		10AE065517480D2A003A1803 /* test_launchctl.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 10AE065417480D2A003A1803 /* test_launchctl.1 */; };
-		10AE065917480D4C003A1803 /* liblaunchctl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 10AE061A17480A42003A1803 /* liblaunchctl.dylib */; };
+		20BAFFD217755C7700FE11FA /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 20BAFFD117755C7700FE11FA /* Makefile */; };
+		20C0E965176D4ECA0060B1EF /* liblaunchctl.c in Sources */ = {isa = PBXBuildFile; fileRef = 10AE062717480A42003A1803 /* liblaunchctl.c */; };
+		20C0E966176D4EDA0060B1EF /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10AE063A17480C86003A1803 /* CoreFoundation.framework */; };
+		20C0E967176D4EE30060B1EF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10AE063017480BF7003A1803 /* SystemConfiguration.framework */; };
+		20C0E96B176D4F560060B1EF /* liblaunchctl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20C0E961176D4EAF0060B1EF /* liblaunchctl.a */; };
+		20C0E96C176D50960060B1EF /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10AE063A17480C86003A1803 /* CoreFoundation.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		20C0E96D176D50B00060B1EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 10AE061217480A42003A1803 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 20C0E960176D4EAF0060B1EF;
+			remoteInfo = liblaunchctl_static;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		10AE064E17480D2A003A1803 /* CopyFiles */ = {
@@ -60,6 +75,10 @@
 		10AE065017480D2A003A1803 /* launchctl_cli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = launchctl_cli; sourceTree = BUILT_PRODUCTS_DIR; };
 		10AE065217480D2A003A1803 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		10AE065417480D2A003A1803 /* test_launchctl.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = test_launchctl.1; sourceTree = "<group>"; };
+		203537CC17755B0E00CA21D9 /* Runner.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Runner.sh; sourceTree = "<group>"; };
+		203537CD17755BFA00CA21D9 /* binding.gyp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = binding.gyp; sourceTree = SOURCE_ROOT; };
+		20BAFFD117755C7700FE11FA /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		20C0E961176D4EAF0060B1EF /* liblaunchctl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblaunchctl.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +95,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10AE065917480D4C003A1803 /* liblaunchctl.dylib in Frameworks */,
+				20C0E96C176D50960060B1EF /* CoreFoundation.framework in Frameworks */,
+				20C0E96B176D4F560060B1EF /* liblaunchctl.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		20C0E95E176D4EAF0060B1EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20C0E967176D4EE30060B1EF /* SystemConfiguration.framework in Frameworks */,
+				20C0E966176D4EDA0060B1EF /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +115,9 @@
 		10AE061117480A42003A1803 = {
 			isa = PBXGroup;
 			children = (
+				203537CC17755B0E00CA21D9 /* Runner.sh */,
+				203537CD17755BFA00CA21D9 /* binding.gyp */,
+				20BAFFD117755C7700FE11FA /* Makefile */,
 				10AE062317480A42003A1803 /* liblaunchctl */,
 				10AE065117480D2A003A1803 /* test_launchctl */,
 				10AE061C17480A42003A1803 /* Frameworks */,
@@ -98,6 +130,7 @@
 			children = (
 				10AE061A17480A42003A1803 /* liblaunchctl.dylib */,
 				10AE065017480D2A003A1803 /* launchctl_cli */,
+				20C0E961176D4EAF0060B1EF /* liblaunchctl.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -169,7 +202,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		20C0E95F176D4EAF0060B1EF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
+
+/* Begin PBXLegacyTarget section */
+		203537C817755A6B00CA21D9 /* make */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "Runner.sh $(ACTION)";
+			buildConfigurationList = 203537CB17755A6B00CA21D9 /* Build configuration list for PBXLegacyTarget "make" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/bash;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = make;
+			passBuildSettingsInEnvironment = 1;
+			productName = make;
+		};
+/* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
 		10AE061917480A42003A1803 /* liblaunchctl */ = {
@@ -201,11 +258,29 @@
 			buildRules = (
 			);
 			dependencies = (
+				20C0E96E176D50B00060B1EF /* PBXTargetDependency */,
 			);
 			name = test_launchctl;
 			productName = test_launchctl;
 			productReference = 10AE065017480D2A003A1803 /* launchctl_cli */;
 			productType = "com.apple.product-type.tool";
+		};
+		20C0E960176D4EAF0060B1EF /* liblaunchctl_static */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20C0E962176D4EAF0060B1EF /* Build configuration list for PBXNativeTarget "liblaunchctl_static" */;
+			buildPhases = (
+				20C0E95D176D4EAF0060B1EF /* Sources */,
+				20C0E95E176D4EAF0060B1EF /* Frameworks */,
+				20C0E95F176D4EAF0060B1EF /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = liblaunchctl_static;
+			productName = liblaunchctl_static;
+			productReference = 20C0E961176D4EAF0060B1EF /* liblaunchctl.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -230,6 +305,8 @@
 			targets = (
 				10AE061917480A42003A1803 /* liblaunchctl */,
 				10AE064F17480D2A003A1803 /* test_launchctl */,
+				20C0E960176D4EAF0060B1EF /* liblaunchctl_static */,
+				203537C817755A6B00CA21D9 /* make */,
 			);
 		};
 /* End PBXProject section */
@@ -239,6 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20BAFFD217755C7700FE11FA /* Makefile in Sources */,
 				10AE062817480A42003A1803 /* liblaunchctl.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -251,7 +329,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		20C0E95D176D4EAF0060B1EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20C0E965176D4ECA0060B1EF /* liblaunchctl.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		20C0E96E176D50B00060B1EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 20C0E960176D4EAF0060B1EF /* liblaunchctl_static */;
+			targetProxy = 20C0E96D176D50B00060B1EF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		10AE062917480A42003A1803 /* Debug */ = {
@@ -326,6 +420,7 @@
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
+				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -345,6 +440,7 @@
 					"$(inherited)",
 					"\"$(SDKROOT)/usr/lib/system\"",
 				);
+				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -368,6 +464,85 @@
 				DSTROOT = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				INSTALL_PATH = build;
 				PRODUCT_NAME = launchctl_cli;
+			};
+			name = Release;
+		};
+		203537C917755A6B00CA21D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		203537CA17755A6B00CA21D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		20C0E963176D4EAF0060B1EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				EXECUTABLE_PREFIX = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = liblaunchctl;
+			};
+			name = Debug;
+		};
+		20C0E964176D4EAF0060B1EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				ENABLE_NS_ASSERTIONS = NO;
+				EXECUTABLE_PREFIX = "";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = liblaunchctl;
 			};
 			name = Release;
 		};
@@ -397,6 +572,24 @@
 			buildConfigurations = (
 				10AE065717480D2A003A1803 /* Debug */,
 				10AE065817480D2A003A1803 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		203537CB17755A6B00CA21D9 /* Build configuration list for PBXLegacyTarget "make" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				203537C917755A6B00CA21D9 /* Debug */,
+				203537CA17755A6B00CA21D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		20C0E962176D4EAF0060B1EF /* Build configuration list for PBXNativeTarget "liblaunchctl_static" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20C0E963176D4EAF0060B1EF /* Debug */,
+				20C0E964176D4EAF0060B1EF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
