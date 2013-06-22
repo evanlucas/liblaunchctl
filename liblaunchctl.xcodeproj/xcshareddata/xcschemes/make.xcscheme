@@ -28,7 +28,26 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "203A3F1D1775608D00E8140D"
+               BuildableName = "liblaunchctl tests.octest"
+               BlueprintName = "liblaunchctl tests"
+               ReferencedContainer = "container:liblaunchctl.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "203537C817755A6B00CA21D9"
+            BuildableName = "make"
+            BlueprintName = "make"
+            ReferencedContainer = "container:liblaunchctl.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"

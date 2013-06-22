@@ -14,18 +14,32 @@
 		10AE063817480C4F003A1803 /* launch_priv.h in Headers */ = {isa = PBXBuildFile; fileRef = 10AE063417480C4F003A1803 /* launch_priv.h */; };
 		10AE063917480C4F003A1803 /* vproc_priv.h in Headers */ = {isa = PBXBuildFile; fileRef = 10AE063517480C4F003A1803 /* vproc_priv.h */; };
 		10AE063B17480C86003A1803 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10AE063A17480C86003A1803 /* CoreFoundation.framework */; };
-		10AE065317480D2A003A1803 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 10AE065217480D2A003A1803 /* main.c */; };
-		10AE065517480D2A003A1803 /* test_launchctl.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 10AE065417480D2A003A1803 /* test_launchctl.1 */; };
+		203A3F201775608D00E8140D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 203A3F1F1775608D00E8140D /* SenTestingKit.framework */; };
+		203A3F261775608D00E8140D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 203A3F241775608D00E8140D /* InfoPlist.strings */; };
+		203A3F281775608D00E8140D /* liblaunchctl_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 203A3F271775608D00E8140D /* liblaunchctl_tests.m */; };
+		203A3F331775625600E8140D /* liblaunchctl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20C0E961176D4EAF0060B1EF /* liblaunchctl.a */; };
 		20BAFFD217755C7700FE11FA /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 20BAFFD117755C7700FE11FA /* Makefile */; };
 		20C0E965176D4ECA0060B1EF /* liblaunchctl.c in Sources */ = {isa = PBXBuildFile; fileRef = 10AE062717480A42003A1803 /* liblaunchctl.c */; };
 		20C0E966176D4EDA0060B1EF /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10AE063A17480C86003A1803 /* CoreFoundation.framework */; };
 		20C0E967176D4EE30060B1EF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10AE063017480BF7003A1803 /* SystemConfiguration.framework */; };
-		20C0E96B176D4F560060B1EF /* liblaunchctl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 20C0E961176D4EAF0060B1EF /* liblaunchctl.a */; };
-		20C0E96C176D50960060B1EF /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10AE063A17480C86003A1803 /* CoreFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		20C0E96D176D50B00060B1EF /* PBXContainerItemProxy */ = {
+		203A3F2A1775608D00E8140D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 10AE061217480A42003A1803 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 203537C817755A6B00CA21D9;
+			remoteInfo = make;
+		};
+		203A3F2F1775618F00E8140D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 10AE061217480A42003A1803 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 20C0E960176D4EAF0060B1EF;
+			remoteInfo = liblaunchctl_static;
+		};
+		203A3F31177561B500E8140D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 10AE061217480A42003A1803 /* Project object */;
 			proxyType = 1;
@@ -35,16 +49,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		10AE064E17480D2A003A1803 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-				10AE065517480D2A003A1803 /* test_launchctl.1 in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		10AE065A17480DB0003A1803 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -72,11 +76,14 @@
 		10AE063417480C4F003A1803 /* launch_priv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = launch_priv.h; sourceTree = "<group>"; };
 		10AE063517480C4F003A1803 /* vproc_priv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vproc_priv.h; sourceTree = "<group>"; };
 		10AE063A17480C86003A1803 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		10AE065017480D2A003A1803 /* launchctl_cli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = launchctl_cli; sourceTree = BUILT_PRODUCTS_DIR; };
-		10AE065217480D2A003A1803 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		10AE065417480D2A003A1803 /* test_launchctl.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = test_launchctl.1; sourceTree = "<group>"; };
 		203537CC17755B0E00CA21D9 /* Runner.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Runner.sh; sourceTree = "<group>"; };
 		203537CD17755BFA00CA21D9 /* binding.gyp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = binding.gyp; sourceTree = SOURCE_ROOT; };
+		203A3F1E1775608D00E8140D /* liblaunchctl tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "liblaunchctl tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		203A3F1F1775608D00E8140D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		203A3F231775608D00E8140D /* liblaunchctl tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "liblaunchctl tests-Info.plist"; sourceTree = "<group>"; };
+		203A3F251775608D00E8140D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		203A3F271775608D00E8140D /* liblaunchctl_tests.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = liblaunchctl_tests.m; sourceTree = "<group>"; tabWidth = 2; };
+		203A3F291775608D00E8140D /* liblaunchctl tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "liblaunchctl tests-Prefix.pch"; sourceTree = "<group>"; };
 		20BAFFD117755C7700FE11FA /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		20C0E961176D4EAF0060B1EF /* liblaunchctl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblaunchctl.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -91,12 +98,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		10AE064D17480D2A003A1803 /* Frameworks */ = {
+		203A3F1B1775608D00E8140D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20C0E96C176D50960060B1EF /* CoreFoundation.framework in Frameworks */,
-				20C0E96B176D4F560060B1EF /* liblaunchctl.a in Frameworks */,
+				203A3F331775625600E8140D /* liblaunchctl.a in Frameworks */,
+				203A3F201775608D00E8140D /* SenTestingKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +126,7 @@
 				203537CD17755BFA00CA21D9 /* binding.gyp */,
 				20BAFFD117755C7700FE11FA /* Makefile */,
 				10AE062317480A42003A1803 /* liblaunchctl */,
-				10AE065117480D2A003A1803 /* test_launchctl */,
+				203A3F211775608D00E8140D /* liblaunchctl tests */,
 				10AE061C17480A42003A1803 /* Frameworks */,
 				10AE061B17480A42003A1803 /* Products */,
 			);
@@ -129,8 +136,8 @@
 			isa = PBXGroup;
 			children = (
 				10AE061A17480A42003A1803 /* liblaunchctl.dylib */,
-				10AE065017480D2A003A1803 /* launchctl_cli */,
 				20C0E961176D4EAF0060B1EF /* liblaunchctl.a */,
+				203A3F1E1775608D00E8140D /* liblaunchctl tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -141,6 +148,7 @@
 				10AE063A17480C86003A1803 /* CoreFoundation.framework */,
 				10AE063017480BF7003A1803 /* SystemConfiguration.framework */,
 				10AE061D17480A42003A1803 /* Cocoa.framework */,
+				203A3F1F1775608D00E8140D /* SenTestingKit.framework */,
 				10AE061F17480A42003A1803 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -179,13 +187,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		10AE065117480D2A003A1803 /* test_launchctl */ = {
+		203A3F211775608D00E8140D /* liblaunchctl tests */ = {
 			isa = PBXGroup;
 			children = (
-				10AE065217480D2A003A1803 /* main.c */,
-				10AE065417480D2A003A1803 /* test_launchctl.1 */,
+				203A3F271775608D00E8140D /* liblaunchctl_tests.m */,
+				203A3F221775608D00E8140D /* Supporting Files */,
 			);
-			path = test_launchctl;
+			path = "liblaunchctl tests";
+			sourceTree = "<group>";
+		};
+		203A3F221775608D00E8140D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				203A3F231775608D00E8140D /* liblaunchctl tests-Info.plist */,
+				203A3F241775608D00E8140D /* InfoPlist.strings */,
+				203A3F291775608D00E8140D /* liblaunchctl tests-Prefix.pch */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,6 +239,7 @@
 			buildToolPath = /bin/bash;
 			buildWorkingDirectory = "";
 			dependencies = (
+				203A3F32177561B500E8140D /* PBXTargetDependency */,
 			);
 			name = make;
 			passBuildSettingsInEnvironment = 1;
@@ -247,23 +266,24 @@
 			productReference = 10AE061A17480A42003A1803 /* liblaunchctl.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		10AE064F17480D2A003A1803 /* test_launchctl */ = {
+		203A3F1D1775608D00E8140D /* liblaunchctl tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 10AE065617480D2A003A1803 /* Build configuration list for PBXNativeTarget "test_launchctl" */;
+			buildConfigurationList = 203A3F2C1775608D00E8140D /* Build configuration list for PBXNativeTarget "liblaunchctl tests" */;
 			buildPhases = (
-				10AE064C17480D2A003A1803 /* Sources */,
-				10AE064D17480D2A003A1803 /* Frameworks */,
-				10AE064E17480D2A003A1803 /* CopyFiles */,
+				203A3F1A1775608D00E8140D /* Sources */,
+				203A3F1B1775608D00E8140D /* Frameworks */,
+				203A3F1C1775608D00E8140D /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				20C0E96E176D50B00060B1EF /* PBXTargetDependency */,
+				203A3F301775618F00E8140D /* PBXTargetDependency */,
+				203A3F2B1775608D00E8140D /* PBXTargetDependency */,
 			);
-			name = test_launchctl;
-			productName = test_launchctl;
-			productReference = 10AE065017480D2A003A1803 /* launchctl_cli */;
-			productType = "com.apple.product-type.tool";
+			name = "liblaunchctl tests";
+			productName = "liblaunchctl tests";
+			productReference = 203A3F1E1775608D00E8140D /* liblaunchctl tests.octest */;
+			productType = "com.apple.product-type.bundle";
 		};
 		20C0E960176D4EAF0060B1EF /* liblaunchctl_static */ = {
 			isa = PBXNativeTarget;
@@ -290,6 +310,11 @@
 			attributes = {
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Hattiesburg Clinic";
+				TargetAttributes = {
+					203A3F1D1775608D00E8140D = {
+						TestTargetID = 203537C817755A6B00CA21D9;
+					};
+				};
 			};
 			buildConfigurationList = 10AE061517480A42003A1803 /* Build configuration list for PBXProject "liblaunchctl" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -304,12 +329,23 @@
 			projectRoot = "";
 			targets = (
 				10AE061917480A42003A1803 /* liblaunchctl */,
-				10AE064F17480D2A003A1803 /* test_launchctl */,
 				20C0E960176D4EAF0060B1EF /* liblaunchctl_static */,
 				203537C817755A6B00CA21D9 /* make */,
+				203A3F1D1775608D00E8140D /* liblaunchctl tests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		203A3F1C1775608D00E8140D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				203A3F261775608D00E8140D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		10AE061617480A42003A1803 /* Sources */ = {
@@ -321,11 +357,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		10AE064C17480D2A003A1803 /* Sources */ = {
+		203A3F1A1775608D00E8140D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10AE065317480D2A003A1803 /* main.c in Sources */,
+				203A3F281775608D00E8140D /* liblaunchctl_tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,12 +376,33 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		20C0E96E176D50B00060B1EF /* PBXTargetDependency */ = {
+		203A3F2B1775608D00E8140D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 203537C817755A6B00CA21D9 /* make */;
+			targetProxy = 203A3F2A1775608D00E8140D /* PBXContainerItemProxy */;
+		};
+		203A3F301775618F00E8140D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 20C0E960176D4EAF0060B1EF /* liblaunchctl_static */;
-			targetProxy = 20C0E96D176D50B00060B1EF /* PBXContainerItemProxy */;
+			targetProxy = 203A3F2F1775618F00E8140D /* PBXContainerItemProxy */;
+		};
+		203A3F32177561B500E8140D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 20C0E960176D4EAF0060B1EF /* liblaunchctl_static */;
+			targetProxy = 203A3F31177561B500E8140D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		203A3F241775608D00E8140D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				203A3F251775608D00E8140D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		10AE062917480A42003A1803 /* Debug */ = {
@@ -445,28 +502,6 @@
 			};
 			name = Release;
 		};
-		10AE065717480D2A003A1803 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEPLOYMENT_LOCATION = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				DSTROOT = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				INSTALL_PATH = build;
-				PRODUCT_NAME = launchctl_cli;
-			};
-			name = Debug;
-		};
-		10AE065817480D2A003A1803 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEPLOYMENT_LOCATION = YES;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				DSTROOT = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				INSTALL_PATH = build;
-				PRODUCT_NAME = launchctl_cli;
-			};
-			name = Release;
-		};
 		203537C917755A6B00CA21D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -506,6 +541,57 @@
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		203A3F2D1775608D00E8140D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "liblaunchctl tests/liblaunchctl tests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "liblaunchctl tests/liblaunchctl tests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		203A3F2E1775608D00E8140D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				ENABLE_NS_ASSERTIONS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "liblaunchctl tests/liblaunchctl tests-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "liblaunchctl tests/liblaunchctl tests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
@@ -567,15 +653,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		10AE065617480D2A003A1803 /* Build configuration list for PBXNativeTarget "test_launchctl" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				10AE065717480D2A003A1803 /* Debug */,
-				10AE065817480D2A003A1803 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		203537CB17755A6B00CA21D9 /* Build configuration list for PBXLegacyTarget "make" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -584,6 +661,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		203A3F2C1775608D00E8140D /* Build configuration list for PBXNativeTarget "liblaunchctl tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				203A3F2D1775608D00E8140D /* Debug */,
+				203A3F2E1775608D00E8140D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		20C0E962176D4EAF0060B1EF /* Build configuration list for PBXNativeTarget "liblaunchctl_static" */ = {
 			isa = XCConfigurationList;
