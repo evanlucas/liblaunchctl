@@ -3,34 +3,34 @@
 <plist version="1.0">
 <dict>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>7F4CE992-C2EE-4F50-8165-56DEBF4E3042</string>
+	<string>42878A3E-C7E6-4688-AC0B-EBF5B1E81D2A</string>
 	<key>IDESourceControlProjectName</key>
 	<string>liblaunchctl</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>BE1F0B28-D706-4D3F-96F3-7843F2C7BC03</key>
-		<string>ssh://github.com/evanlucas/liblaunchctl.git</string>
+		<key>4D97F896-E8A5-45AA-B6A4-889B90EB023C</key>
+		<string>evan@evanlucas.com:/git/liblaunchctl.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>liblaunchctl.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>BE1F0B28-D706-4D3F-96F3-7843F2C7BC03</key>
+		<key>4D97F896-E8A5-45AA-B6A4-889B90EB023C</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/evanlucas/liblaunchctl.git</string>
+	<string>evan@evanlucas.com:/git/liblaunchctl.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>BE1F0B28-D706-4D3F-96F3-7843F2C7BC03</string>
+	<string>4D97F896-E8A5-45AA-B6A4-889B90EB023C</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>BE1F0B28-D706-4D3F-96F3-7843F2C7BC03</string>
+			<string>4D97F896-E8A5-45AA-B6A4-889B90EB023C</string>
 			<key>IDESourceControlWCCName</key>
 			<string>liblaunchctl</string>
 		</dict>

@@ -8,8 +8,11 @@
 
 echo "$1"ing liblaunchctl
 
-if [[ "$1" == "clean" ]]; then
-    xcodebuild clean
-else
-    make
-fi
+make "$@"
+#if [[ "$1" == "clean" ]]; then
+#    xcodebuild clean
+#elif [[ "$1" == "test" ]]; then
+#    xcodebuild -scheme make test
+#else
+#    make
+#fi

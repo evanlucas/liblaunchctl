@@ -46,7 +46,6 @@ static bool job_disabled_logic(launch_data_t obj);
 static void do_mgroup_join(int fd, int family, int socktype, int protocol, const char *mgroup);
 static int _fd(int);
 static void do_application_firewall_magic(int sfd, launch_data_t thejob);
-static void setup_system_context(void);
 static mach_port_t str2bsport(const char *s);
 CFTypeRef CFTypeCreateFromLaunchData(launch_data_t obj);
 CFArrayRef CFArrayCreateFromLaunchArray(launch_data_t arr);
@@ -202,15 +201,23 @@ jobs_list_t launchctl_list_jobs() {
 }
 
 void jobs_list_free(jobs_list_t j) {
-  
+  if (j->jobs) {
+    for (int i=0; i<j->count; i++) {
+      if (&j->jobs[i]) {
+        launch_data_status_free(&j->jobs[i]);
+      }
+    }
+  }
   free(j);
 }
 
 void launch_data_status_free(launch_data_status_t j) {
+  if (!j) {
+    return;
+  }
   if (j->label) {
     free(j->label);
   }
-  free(j);
 }
 
 int launchctl_start_job(const char *job) {
@@ -227,7 +234,8 @@ int launchctl_start_job(const char *job) {
   launch_data_free(msg);
   
   if (resp == NULL) {
-    return errno;
+    r = errno;
+    return r;
   } else if (launch_data_get_type(resp) == LAUNCH_DATA_ERRNO) {
     if ((e = launch_data_get_errno(resp))) {
       r = e;
@@ -252,7 +260,8 @@ int launchctl_stop_job(const char *job) {
   launch_data_free(msg);
   
   if (resp == NULL) {
-    return errno;
+    r = errno;
+    return r;
   } else if (launch_data_get_type(resp) == LAUNCH_DATA_ERRNO) {
     if ((e = launch_data_get_errno(resp))) {
       r = e;
@@ -277,7 +286,8 @@ int launchctl_remove_job(const char *job) {
   launch_data_free(msg);
   
   if (resp == NULL) {
-    return errno;
+    r = errno;
+    return r;
   } else if (launch_data_get_type(resp) == LAUNCH_DATA_ERRNO) {
     if ((e = launch_data_get_errno(resp))) {
       r = e;
@@ -499,6 +509,9 @@ char *launchctl_get_managername() {
 }
 
 int64_t launchctl_get_manageruid() {
+  if (geteuid() == 0) {
+		setup_system_context();
+	}
   int64_t manager_uid = 0;
   vproc_err_t verr = vproc_swap_integer(NULL, VPROC_GSK_MGR_UID, NULL, (int64_t *)&manager_uid);
   if (verr) {
@@ -509,6 +522,9 @@ int64_t launchctl_get_manageruid() {
 }
 
 int launchctl_get_managerpid() {
+  if (geteuid() == 0) {
+		setup_system_context();
+	}
   int64_t manager_pid = 0;
   vproc_err_t verr = vproc_swap_integer(NULL, VPROC_GSK_MGR_PID, NULL, (int64_t *)&manager_pid);
   if (verr) {
@@ -517,6 +533,68 @@ int launchctl_get_managerpid() {
   }
   return (int)manager_pid;
 }
+
+int launchctl_submit_job(int argc, char *const argv[]) {
+  if (geteuid() == 0) {
+		setup_system_context();
+	}
+  launch_data_t msg = launch_data_alloc(LAUNCH_DATA_DICTIONARY);
+  launch_data_t job = launch_data_alloc(LAUNCH_DATA_DICTIONARY);
+  launch_data_t resp, largv = launch_data_alloc(LAUNCH_DATA_ARRAY);
+  
+  int ch, i, r = 0;
+  
+  launch_data_dict_insert(job, launch_data_new_bool(false), LAUNCH_JOBKEY_LABEL);
+  
+  while ((ch = getopt(argc, argv, "l:p:o:e:")) != -1) {
+		switch (ch) {
+      case 'l':
+        launch_data_dict_insert(job, launch_data_new_string(optarg), LAUNCH_JOBKEY_LABEL);
+        break;
+      case 'p':
+        launch_data_dict_insert(job, launch_data_new_string(optarg), LAUNCH_JOBKEY_PROGRAM);
+        break;
+      case 'o':
+        launch_data_dict_insert(job, launch_data_new_string(optarg), LAUNCH_JOBKEY_STANDARDOUTPATH);
+        break;
+      case 'e':
+        launch_data_dict_insert(job, launch_data_new_string(optarg), LAUNCH_JOBKEY_STANDARDERRORPATH);
+        break;
+      default:
+        return EINVARG;
+		}
+	}
+  
+  argc -= optind;
+  argv += optind;
+  
+  for (i=0; argv[i]; i++) {
+    launch_data_array_append(largv, launch_data_new_string(argv[i]));
+  }
+  
+  launch_data_dict_insert(job, largv, LAUNCH_JOBKEY_PROGRAMARGUMENTS);
+  
+  launch_data_dict_insert(msg, job, LAUNCH_KEY_SUBMITJOB);
+  
+  resp = launch_msg(msg);
+  launch_data_free(msg);
+  
+  if (resp == NULL) {
+    r = errno;
+    return r;
+  } else if (launch_data_get_type(resp) == LAUNCH_DATA_ERRNO) {
+    errno = launch_data_get_errno(resp);
+    if (errno) {
+      r = errno;
+    }
+  } else {
+    r = -1;
+  }
+  
+  launch_data_free(resp);
+  return r;
+}
+
 
 CFTypeRef CFTypeCreateFromLaunchData(launch_data_t obj) {
   CFTypeRef cfObj = NULL;

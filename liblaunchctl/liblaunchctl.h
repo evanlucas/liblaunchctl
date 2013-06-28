@@ -1,11 +1,3 @@
-//
-//  liblaunchctl.h
-//  liblaunchctl
-//
-//  Created by Evan Lucas on 5/18/13.
-//  Copyright (c) 2013 Hattiesburg Clinic. All rights reserved.
-//
-
 /*
  * Copyright (c) 2005 Apple Computer, Inc. All rights reserved.
  *
@@ -62,10 +54,7 @@
 #include <pwd.h>
 #include <sys/syslimits.h>
 #include "assumes.h"
-
-
-extern int * __error(void);
-#define errno (*__error())
+#include <errno.h>
 
 #define EALLOAD 144 // Job already loaded
 #define ENOLOAD 145 // Job not loaded
@@ -74,6 +63,8 @@ extern int * __error(void);
 #define EIVALDO 148 // Invalid domain
 #define EJNFOUN 149 // Job not found
 #define EINCMD 150 // Invalid command
+#define EINVARG 151 // Invalid arguments
+
 struct _launch_data {
   uint64_t type;
   union {
@@ -133,6 +124,13 @@ typedef struct jobslist *jobs_list_t;
 
 #pragma mark Public Functions
 
+/*!
+ @function launchctl_list_job
+ @discussion Lists the job with the given job label
+ @param job
+  The job label (ex. com.apple.Dock.agent)
+ @return launch_data_t
+ */
 launch_data_t launchctl_list_job(const char *job);
 jobs_list_t launchctl_list_jobs();
 void jobs_list_free(jobs_list_t j);
@@ -146,5 +144,5 @@ char *launchctl_get_managername();
 int launchctl_get_managerpid();
 int64_t launchctl_get_manageruid();
 char *launchctl_get_session();
-
-
+int launchctl_submit_job(int argc, char *const argv[]);
+void setup_system_context(void);

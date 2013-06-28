@@ -78,12 +78,12 @@
 		10AE063A17480C86003A1803 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		203537CC17755B0E00CA21D9 /* Runner.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Runner.sh; sourceTree = "<group>"; };
 		203537CD17755BFA00CA21D9 /* binding.gyp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = binding.gyp; sourceTree = SOURCE_ROOT; };
-		203A3F1E1775608D00E8140D /* liblaunchctl tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "liblaunchctl tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		203A3F1E1775608D00E8140D /* tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		203A3F1F1775608D00E8140D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		203A3F231775608D00E8140D /* liblaunchctl tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "liblaunchctl tests-Info.plist"; sourceTree = "<group>"; };
+		203A3F231775608D00E8140D /* tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "tests-Info.plist"; sourceTree = "<group>"; };
 		203A3F251775608D00E8140D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		203A3F271775608D00E8140D /* liblaunchctl_tests.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = liblaunchctl_tests.m; sourceTree = "<group>"; tabWidth = 2; };
-		203A3F291775608D00E8140D /* liblaunchctl tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "liblaunchctl tests-Prefix.pch"; sourceTree = "<group>"; };
+		203A3F291775608D00E8140D /* tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tests-Prefix.pch"; sourceTree = "<group>"; };
 		20BAFFD117755C7700FE11FA /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		20C0E961176D4EAF0060B1EF /* liblaunchctl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblaunchctl.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -126,7 +126,7 @@
 				203537CD17755BFA00CA21D9 /* binding.gyp */,
 				20BAFFD117755C7700FE11FA /* Makefile */,
 				10AE062317480A42003A1803 /* liblaunchctl */,
-				203A3F211775608D00E8140D /* liblaunchctl tests */,
+				203A3F211775608D00E8140D /* tests */,
 				10AE061C17480A42003A1803 /* Frameworks */,
 				10AE061B17480A42003A1803 /* Products */,
 			);
@@ -137,7 +137,7 @@
 			children = (
 				10AE061A17480A42003A1803 /* liblaunchctl.dylib */,
 				20C0E961176D4EAF0060B1EF /* liblaunchctl.a */,
-				203A3F1E1775608D00E8140D /* liblaunchctl tests.octest */,
+				203A3F1E1775608D00E8140D /* tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -187,21 +187,21 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		203A3F211775608D00E8140D /* liblaunchctl tests */ = {
+		203A3F211775608D00E8140D /* tests */ = {
 			isa = PBXGroup;
 			children = (
 				203A3F271775608D00E8140D /* liblaunchctl_tests.m */,
 				203A3F221775608D00E8140D /* Supporting Files */,
 			);
-			path = "liblaunchctl tests";
+			path = tests;
 			sourceTree = "<group>";
 		};
 		203A3F221775608D00E8140D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				203A3F231775608D00E8140D /* liblaunchctl tests-Info.plist */,
+				203A3F231775608D00E8140D /* tests-Info.plist */,
 				203A3F241775608D00E8140D /* InfoPlist.strings */,
-				203A3F291775608D00E8140D /* liblaunchctl tests-Prefix.pch */,
+				203A3F291775608D00E8140D /* tests-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -266,9 +266,9 @@
 			productReference = 10AE061A17480A42003A1803 /* liblaunchctl.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
-		203A3F1D1775608D00E8140D /* liblaunchctl tests */ = {
+		203A3F1D1775608D00E8140D /* tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 203A3F2C1775608D00E8140D /* Build configuration list for PBXNativeTarget "liblaunchctl tests" */;
+			buildConfigurationList = 203A3F2C1775608D00E8140D /* Build configuration list for PBXNativeTarget "tests" */;
 			buildPhases = (
 				203A3F1A1775608D00E8140D /* Sources */,
 				203A3F1B1775608D00E8140D /* Frameworks */,
@@ -280,9 +280,9 @@
 				203A3F301775618F00E8140D /* PBXTargetDependency */,
 				203A3F2B1775608D00E8140D /* PBXTargetDependency */,
 			);
-			name = "liblaunchctl tests";
+			name = tests;
 			productName = "liblaunchctl tests";
-			productReference = 203A3F1E1775608D00E8140D /* liblaunchctl tests.octest */;
+			productReference = 203A3F1E1775608D00E8140D /* tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 		20C0E960176D4EAF0060B1EF /* liblaunchctl_static */ = {
@@ -331,7 +331,7 @@
 				10AE061917480A42003A1803 /* liblaunchctl */,
 				20C0E960176D4EAF0060B1EF /* liblaunchctl_static */,
 				203537C817755A6B00CA21D9 /* make */,
-				203A3F1D1775608D00E8140D /* liblaunchctl tests */,
+				203A3F1D1775608D00E8140D /* tests */,
 			);
 		};
 /* End PBXProject section */
@@ -479,6 +479,7 @@
 				);
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
 			};
 			name = Debug;
 		};
@@ -499,6 +500,7 @@
 				);
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
 			};
 			name = Release;
 		};
@@ -519,7 +521,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -537,7 +539,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -547,7 +549,10 @@
 		203A3F2D1775608D00E8140D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -555,18 +560,20 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "liblaunchctl tests/liblaunchctl tests-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREFIX_HEADER = "tests/tests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_USE_STANDARD_INCLUDE_SEARCHING = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "liblaunchctl tests/liblaunchctl tests-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				INFOPLIST_FILE = "tests/tests-Info.plist";
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
+				WARNING_LDFLAGS = "-Wno-ambiguous-macro";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -574,7 +581,10 @@
 		203A3F2E1775608D00E8140D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_MODULES_AUTOLINK = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
@@ -583,14 +593,19 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
 				);
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "liblaunchctl tests/liblaunchctl tests-Prefix.pch";
+				GCC_PREFIX_HEADER = "tests/tests-Prefix.pch";
+				GCC_USE_STANDARD_INCLUDE_SEARCHING = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "liblaunchctl tests/liblaunchctl tests-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				INFOPLIST_FILE = "tests/tests-Info.plist";
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
+				WARNING_LDFLAGS = "-Wno-ambiguous-macro";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -610,8 +625,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = liblaunchctl;
+				SDKROOT = macosx10.8;
 			};
 			name = Debug;
 		};
@@ -627,8 +643,9 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = liblaunchctl;
+				SDKROOT = macosx10.8;
 			};
 			name = Release;
 		};
@@ -662,13 +679,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		203A3F2C1775608D00E8140D /* Build configuration list for PBXNativeTarget "liblaunchctl tests" */ = {
+		203A3F2C1775608D00E8140D /* Build configuration list for PBXNativeTarget "tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				203A3F2D1775608D00E8140D /* Debug */,
 				203A3F2E1775608D00E8140D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		20C0E962176D4EAF0060B1EF /* Build configuration list for PBXNativeTarget "liblaunchctl_static" */ = {
 			isa = XCConfigurationList;

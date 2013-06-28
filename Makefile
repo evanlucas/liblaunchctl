@@ -6,4 +6,10 @@ all:
 	/usr/local/bin/node-gyp configure
 	/usr/local/bin/node-gyp build
 
+clean:
+	xcodebuild clean
+
+test:
+	xcodebuild -scheme make test
+
 .PHONY: all
