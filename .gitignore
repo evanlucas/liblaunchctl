@@ -12,3 +12,4 @@ xcuserdata
 *.pbxuser
 !default.pbxuser
 .DS_Store
+xcshareddata

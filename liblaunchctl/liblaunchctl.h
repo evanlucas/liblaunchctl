@@ -103,18 +103,11 @@ struct ldtstatus {
 typedef struct ldtstatus *launch_data_status_t;
 
 
-struct jobslist {
-  launch_data_status_t jobs;
-  int count;
-};
-
 struct load_unload_state {
 	launch_data_t pass1;
 	char *session_type;
 	bool editondisk:1, load:1, forceload:1;
 };
-
-typedef struct jobslist *jobs_list_t;
 
 #define CFTypeCheck(cf, type) (CFGetTypeID(cf) == type ## GetTypeID())
 #define CFReleaseIfNotNULL(cf) if (cf) CFRelease(cf);
@@ -132,8 +125,6 @@ typedef struct jobslist *jobs_list_t;
  @return launch_data_t
  */
 launch_data_t launchctl_list_job(const char *job);
-jobs_list_t launchctl_list_jobs();
-void jobs_list_free(jobs_list_t j);
 void launch_data_status_free(launch_data_status_t j);
 int launchctl_start_job(const char *job);
 int launchctl_stop_job(const char *job);

@@ -26,18 +26,6 @@
   [super tearDown];
 }
 
-- (void)testlistAll
-{
-  jobs_list_t s = launchctl_list_jobs();
-  int count = s->count;
-  printf("Found %d jobs\n", count);
-  for (int i=0; i<count; i++) {
-    launch_data_status_t q = &s->jobs[i];
-    printf("%d - Job: %s\t PID: %d\t Status: %d\n", i, q->label, q->pid, q->status);
-  }
-  jobs_list_free(s);
-}
-
 int print_obj(launch_data_t job, const char *key, void *context) {
   static size_t indent = 0;
   size_t i,c;

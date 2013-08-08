@@ -161,56 +161,6 @@ launch_data_status_t getjob(launch_data_t job) {
   return result;
 }
 
-jobs_list_t launchctl_list_jobs() {
-	launch_data_t resp = NULL;
-  if (geteuid() == 0) {
-    setup_system_context();
-  }
-	if (vproc_swap_complex(NULL, VPROC_GSK_ALLJOBS, NULL, &resp) == NULL) {
-    jobs_list_t res = malloc(sizeof(struct jobslist));
-    if (res == NULL) {
-      fprintf(stderr, "Unable to allocate memory: %s\n", "jobs_list_t launchctl_list_jobs()");
-      return NULL;
-    }
-    int count = (int)resp->_array_cnt;
-    if (LAUNCH_DATA_DICTIONARY != resp->type) {
-        if (resp != NULL) {
-            launch_data_free(resp);
-        }
-        if (res) {
-            free(res);
-        }
-      return NULL;
-    }
-    
-    launch_data_status_t r = malloc(sizeof(struct ldtstatus)*count);
-    int a = 0;
-    for (int i=0; i<count; i+=2) {
-      launch_data_t job = resp->_array[i+1];
-      r[a] = *getjob(job);
-      a++;
-    }
-    res->count = a;
-    res->jobs = r;
-		launch_data_free(resp);
-    return res;
-	}
-  
-  fprintf(stderr, "An unexpected error occurred\n");
-  return NULL;
-}
-
-void jobs_list_free(jobs_list_t j) {
-  if (j->jobs) {
-    for (int i=0; i<j->count; i++) {
-      if (&j->jobs[i]) {
-        launch_data_status_free(&j->jobs[i]);
-      }
-    }
-  }
-  free(j);
-}
-
 void launch_data_status_free(launch_data_status_t j) {
   if (!j) {
     return;
