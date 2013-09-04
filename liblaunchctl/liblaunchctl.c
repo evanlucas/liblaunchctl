@@ -511,6 +511,7 @@ int launchctl_submit_job(int argc, char *const argv[]) {
         launch_data_dict_insert(job, launch_data_new_string(optarg), LAUNCH_JOBKEY_STANDARDERRORPATH);
         break;
       default:
+        // TODO: possibly leaking if we get here
         return EINVARG;
 		}
 	}
@@ -641,7 +642,7 @@ bool path_goodness_check(const char *path, bool forceload) {
 	struct stat sb;
   
 	if (stat(path, &sb) == -1) {
-		fprintf(stderr, "Couldn't stat(\"%s\"): %s", path, strerror(errno));
+		//fprintf(stderr, "Couldn't stat(\"%s\"): %s", path, strerror(errno));
 		return false;
 	}
   
