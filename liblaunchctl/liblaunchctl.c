@@ -478,7 +478,7 @@ int launchctl_get_managerpid() {
   int64_t manager_pid = 0;
   vproc_err_t verr = vproc_swap_integer(NULL, VPROC_GSK_MGR_PID, NULL, (int64_t *)&manager_pid);
   if (verr) {
-    fprintf(stderr, "Unkown job manager\n");
+    fprintf(stderr, "Unknown job manager\n");
     return -1;
   }
   return (int)manager_pid;
