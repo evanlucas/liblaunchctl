@@ -137,3 +137,24 @@ int64_t launchctl_get_manageruid();
 char *launchctl_get_session();
 int launchctl_submit_job(int argc, char *const argv[]);
 void setup_system_context(void);
+static const struct {
+	const char *name;
+	int lim;
+} limlookup[] = {
+	{ "cpu",	RLIMIT_CPU },
+	{ "filesize",	RLIMIT_FSIZE },
+	{ "data",	RLIMIT_DATA },
+	{ "stack",	RLIMIT_STACK },
+	{ "core",	RLIMIT_CORE },
+	{ "rss", 	RLIMIT_RSS },
+	{ "memlock",	RLIMIT_MEMLOCK },
+	{ "maxproc",	RLIMIT_NPROC },
+	{ "maxfiles",	RLIMIT_NOFILE }
+};
+
+static const size_t limlookupcnt = sizeof limlookup / sizeof limlookup[0];
+
+ssize_t name2num(const char *n);
+const char *num2name(int n);
+const char *lim2str(rlim_t val, char *buf);
+bool str2lim(const char *buf, rlim_t *res);

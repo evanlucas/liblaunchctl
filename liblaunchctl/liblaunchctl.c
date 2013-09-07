@@ -1702,3 +1702,52 @@ str2bsport(const char *s)
   
 	return bport;
 }
+
+ssize_t
+name2num(const char *n)
+{
+	size_t i;
+  
+	for (i = 0; i < limlookupcnt; i++) {
+		if (!strcmp(limlookup[i].name, n)) {
+			return limlookup[i].lim;
+		}
+	}
+	return -1;
+}
+
+const char *
+num2name(int n)
+{
+	size_t i;
+  
+	for (i = 0; i < limlookupcnt; i++) {
+		if (limlookup[i].lim == n)
+			return limlookup[i].name;
+	}
+	return NULL;
+}
+
+const char *
+lim2str(rlim_t val, char *buf)
+{
+	if (val == RLIM_INFINITY)
+		strcpy(buf, "unlimited");
+	else
+		sprintf(buf, "%lld", val);
+	return buf;
+}
+
+bool
+str2lim(const char *buf, rlim_t *res)
+{
+	char *endptr;
+	*res = strtoll(buf, &endptr, 10);
+	if (!strcmp(buf, "unlimited")) {
+		*res = RLIM_INFINITY;
+		return false;
+	} else if (*endptr == '\0') {
+    return false;
+	}
+	return true;
+}
