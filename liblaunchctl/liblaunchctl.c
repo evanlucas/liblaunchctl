@@ -486,12 +486,10 @@ int launchctl_get_managerpid() {
 
 int64_t launchctl_getumask() {
   int64_t outval;
-  int r = 0;
   if (vproc_swap_integer(NULL, VPROC_GSK_GLOBAL_UMASK, NULL, &outval) == NULL) {
     return outval;
   } else {
-    r = errno;
-    return r;
+    return -1;
   }
 }
 
