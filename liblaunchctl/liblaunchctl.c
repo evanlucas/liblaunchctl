@@ -484,6 +484,37 @@ int launchctl_get_managerpid() {
   return (int)manager_pid;
 }
 
+int64_t launchctl_getumask() {
+  int64_t outval;
+  int r = 0;
+  if (vproc_swap_integer(NULL, VPROC_GSK_GLOBAL_UMASK, NULL, &outval) == NULL) {
+    return outval;
+  } else {
+    r = errno;
+    return r;
+  }
+}
+
+int launchctl_setumask(const char *mask) {
+  char *endptr;
+  long m = 0;
+  int64_t inval, outval;
+  int r = 0;
+  m = strtol(mask, &endptr, 8);
+  if (*endptr != '\0' || m > 0777) {
+    return 154;
+  }
+  
+  inval = m;
+  
+  if (vproc_swap_integer(NULL, VPROC_GSK_GLOBAL_UMASK, &inval, &outval) == NULL) {
+    return r;
+  } else {
+    r = errno;
+    return r;
+  }
+}
+
 int launchctl_submit_job(int argc, char *const argv[]) {
   if (geteuid() == 0) {
 		setup_system_context();

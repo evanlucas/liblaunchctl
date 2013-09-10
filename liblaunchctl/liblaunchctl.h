@@ -136,6 +136,8 @@ int launchctl_get_managerpid();
 int64_t launchctl_get_manageruid();
 char *launchctl_get_session();
 int launchctl_submit_job(int argc, char *const argv[]);
+int64_t launchctl_getumask();
+int launchctl_setumask(const char *mask);
 void setup_system_context(void);
 static const struct {
 	const char *name;
