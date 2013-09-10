@@ -485,6 +485,9 @@ int launchctl_get_managerpid() {
 }
 
 int64_t launchctl_getumask() {
+  if (geteuid() == 0) {
+		setup_system_context();
+	}
   int64_t outval;
   if (vproc_swap_integer(NULL, VPROC_GSK_GLOBAL_UMASK, NULL, &outval) == NULL) {
     return outval;
@@ -494,6 +497,9 @@ int64_t launchctl_getumask() {
 }
 
 int launchctl_setumask(const char *mask) {
+  if (geteuid() == 0) {
+		setup_system_context();
+	}
   char *endptr;
   long m = 0;
   int64_t inval, outval;
