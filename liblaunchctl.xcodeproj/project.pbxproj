@@ -14,6 +14,7 @@
 		10AE063817480C4F003A1803 /* launch_priv.h in Headers */ = {isa = PBXBuildFile; fileRef = 10AE063417480C4F003A1803 /* launch_priv.h */; };
 		10AE063917480C4F003A1803 /* vproc_priv.h in Headers */ = {isa = PBXBuildFile; fileRef = 10AE063517480C4F003A1803 /* vproc_priv.h */; };
 		10AE063B17480C86003A1803 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10AE063A17480C86003A1803 /* CoreFoundation.framework */; };
+		201C23AC1819CAC3007BE44F /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 20BAFFD117755C7700FE11FA /* Makefile */; };
 		203A3F201775608D00E8140D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 203A3F1F1775608D00E8140D /* SenTestingKit.framework */; };
 		203A3F261775608D00E8140D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 203A3F241775608D00E8140D /* InfoPlist.strings */; };
 		203A3F281775608D00E8140D /* liblaunchctl_tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 203A3F271775608D00E8140D /* liblaunchctl_tests.m */; };
@@ -77,7 +78,7 @@
 		10AE063517480C4F003A1803 /* vproc_priv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vproc_priv.h; sourceTree = "<group>"; };
 		10AE063A17480C86003A1803 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		203537CC17755B0E00CA21D9 /* Runner.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = Runner.sh; sourceTree = "<group>"; };
-		203537CD17755BFA00CA21D9 /* binding.gyp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = binding.gyp; sourceTree = SOURCE_ROOT; };
+		203537CD17755BFA00CA21D9 /* binding.gyp */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text; path = binding.gyp; sourceTree = SOURCE_ROOT; tabWidth = 2; };
 		203A3F1E1775608D00E8140D /* tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		203A3F1F1775608D00E8140D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		203A3F231775608D00E8140D /* tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "tests-Info.plist"; sourceTree = "<group>"; };
@@ -369,6 +370,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				201C23AC1819CAC3007BE44F /* Makefile in Sources */,
 				20C0E965176D4ECA0060B1EF /* liblaunchctl.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,7 +433,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -457,7 +459,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -521,7 +523,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -539,7 +541,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -625,7 +627,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = liblaunchctl;
 				SDKROOT = macosx10.8;
 			};
@@ -643,7 +645,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = liblaunchctl;
 				SDKROOT = macosx10.8;
 			};
