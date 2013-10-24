@@ -216,6 +216,7 @@ __OSX_AVAILABLE_STARTING(__MAC_10_7, __IPHONE_4_3)
 extern void
 _osx_assumes_log(uint64_t code);
 
+#ifdef __MAC_10_8
 __OSX_AVAILABLE_STARTING(__MAC_10_8, __IPHONE_6_0)
 extern char *
 _osx_assert_log(uint64_t code);
@@ -231,7 +232,7 @@ _osx_assert_log_ctx(osx_log_callout_t callout, void *ctx, uint64_t code);
 __OSX_AVAILABLE_STARTING(__MAC_10_8, __IPHONE_6_0)
 extern void
 _osx_avoid_tail_call(void);
-
+#endif
 __END_DECLS
 
 #endif /* __OSX_ASSUMES_H__ */
