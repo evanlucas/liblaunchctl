@@ -10,7 +10,9 @@
 #include "liblaunchctl.h"
 #include <CoreFoundation/CoreFoundation.h>
 #include <NSSystemDirectories.h>
-
+#ifdef __MAC_10_7
+#include <fcntl.h>
+#endif
 #define LAUNCH_ENV_KEEPCONTEXT	"LaunchKeepContext"
 #define LAUNCH_ENV_BOOTSTRAPPINGSYSTEM "LaunchBootstrappingSystem"
 
