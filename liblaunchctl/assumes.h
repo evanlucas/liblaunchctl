@@ -232,6 +232,8 @@ _osx_assert_log_ctx(osx_log_callout_t callout, void *ctx, uint64_t code);
 __OSX_AVAILABLE_STARTING(__MAC_10_8, __IPHONE_6_0)
 extern void
 _osx_avoid_tail_call(void);
+#else
+#define _osx_avoid_tail_call(void)
 #endif
 __END_DECLS
 
