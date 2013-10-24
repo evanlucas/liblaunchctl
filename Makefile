@@ -11,6 +11,7 @@ all:
 
 clean:
 	xcodebuild clean
+	/usr/local/bin/node-gyp clean
 
 test:
 	xcodebuild -scheme make test
